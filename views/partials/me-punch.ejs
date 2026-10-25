@@ -1,0 +1,9 @@
+<%# Temporary (demo mode only): acts like the member putting their finger on the device. Local: visit %>
+<% if (DEMO) { %>
+  <form method="post" action="/me/punch" class="demo-punch">
+    <button class="btn <%= visit ? '' : 'red' %>">
+      <i class="ti ti-fingerprint"></i> <%= visit ? t('محاكاة بصمة الخروج') : t('محاكاة بصمة الدخول') %>
+    </button>
+    <span class="muted small">🧪 <%= t('زر مؤقت للتجربة، يختفي عند ربط الجهاز') %></span>
+  </form>
+<% } %>

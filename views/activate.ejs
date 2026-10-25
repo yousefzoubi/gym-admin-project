@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="<%= lang %>" dir="<%= dir %>">
+<head>
+<%- include('partials/meta') %>
+<title><%= mode === 'new' ? t('تفعيل الحساب') : t('نسيت كلمة المرور') %> · IRON MAN</title>
+</head>
+<body>
+<div class="login">
+  <% if (step === 1 && mode === 'new') { %>
+  <form class="card" method="post" action="/activate">
+    <div style="text-align:end"><%- include('partials/lang-switch') %></div>
+    <img src="/img/logo.webp" alt="IRON MAN">
+    <h1><%= t('تفعيل حساب المشترك') %></h1>
+    <p class="muted small"><%= t('للمشتركين الذين سجّلهم الاستقبال في النادي: فعّل حسابك هنا مرة واحدة فقط، وسنرسل رمزاً إلى هاتفك. لم تسجّل في النادي بعد؟ راجع الاستقبال أولاً.') %></p>
+    <% if (DEMO) { %><div class="flash success" role="note"><%= t('للتجربة: الهاتف 0790000002، الرقم الوطني 9990000002، تاريخ الميلاد 2000-01-15') %></div><% } %>
+    <% if (error) { %><div class="flash error" role="alert"><%= tt(error) %></div><% } %>
+    <label><%= t('رقم الهاتف') %><input name="phone" value="<%= phone %>" required dir="ltr" inputmode="tel" placeholder="07XXXXXXXX" autofocus></label>
+    <label><%= t('الرقم الوطني') %><input name="national_id" required dir="ltr" inputmode="numeric" maxlength="10"></label>
+    <label><%= t('تاريخ الميلاد') %><input name="birth_date" type="date" required dir="ltr"></label>
+    <button class="btn red"><%= t('أرسل الرمز') %></button>
+    <a class="btn" href="/login"><%= t('لدي حساب، العودة لتسجيل الدخول') %></a>
+  </form>
+  <% } else if (step === 1) { %>
+  <form class="card" method="post" action="/forgot">
+    <div style="text-align:end"><%- include('partials/lang-switch') %></div>
+    <img src="/img/logo.webp" alt="IRON MAN">
+    <h1><%= t('نسيت كلمة المرور') %></h1>
+    <p class="muted small"><%= t('أدخل رقم هاتفك المسجّل وسنرسل إليك رمزاً.') %></p>
+    <% if (error) { %><div class="flash error" role="alert"><%= tt(error) %></div><% } %>
+    <label><%= t('رقم الهاتف') %><input name="phone" value="<%= phone %>" required dir="ltr" inputmode="tel" placeholder="07XXXXXXXX" autofocus></label>
+    <button class="btn red"><%= t('أرسل الرمز') %></button>
+    <a class="btn" href="/login"><%= t('العودة لتسجيل الدخول') %></a>
+  </form>
+  <% } else { %>
+  <form class="card" method="post" action="/activate/verify">
+    <img src="/img/logo.webp" alt="IRON MAN">
+    <h1><%= t('أدخل الرمز') %></h1>
+    <p class="muted small"><%= t('إذا كان الرقم {phone} مسجّلاً لدينا فقد وصلك رمز من 6 أرقام صالح لمدة 5 دقائق.', { phone }) %></p>
+    <% if (demoCode) { %><div class="flash success" role="status"><%= t('نسخة تجريبية، لا توجد رسائل SMS حقيقية. الرمز:') %> <b class="num" style="font-size:20px"><%= demoCode %></b></div><% } %>
+    <% if (error) { %><div class="flash error" role="alert"><%= tt(error) %></div><% } %>
+    <input type="hidden" name="phone" value="<%= phone %>">
+    <input type="hidden" name="mode" value="<%= mode %>">
+    <label><%= t('الرمز') %><input name="code" required dir="ltr" inputmode="numeric" autocomplete="one-time-code" maxlength="6" autofocus style="font-size:22px;letter-spacing:8px;text-align:center"></label>
+    <label><%= t('كلمة مرور جديدة') %><input name="password" type="password" minlength="8" required dir="ltr" autocomplete="new-password"></label>
+    <label><%= t('أعد كتابة كلمة المرور') %><input name="password2" type="password" minlength="8" required dir="ltr" autocomplete="new-password"></label>
+    <button class="btn red"><%= mode === 'new' ? t('تفعيل ودخول') : t('حفظ ودخول') %></button>
+    <a class="btn" href="<%= mode === 'new' ? '/activate' : '/forgot' %>"><%= t('لم يصلني الرمز') %></a>
+  </form>
+  <% } %>
+</div>
+</body>
+</html>

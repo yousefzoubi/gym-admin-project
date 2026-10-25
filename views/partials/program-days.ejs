@@ -1,0 +1,49 @@
+<%# A program's days: editable form per day, or read-only. Locals: days, canEdit, addDayAction, summary %>
+<% if (!days.length) { %><section class="card empty"><%= t('لا توجد أيام في هذا الجدول بعد.') %></section><% } %>
+<% for (const d of days) { %>
+  <section class="card day-card" id="day-<%= d.id %>">
+    <div class="top">
+      <h2 style="margin:0"><%= t('اليوم {n}', { n: d.day_no }) %><%= d.title ? ` · ${td(d.title)}` : '' %></h2>
+      <span class="muted small"><%= summary(d) %> · <%= t('{n} تمارين', { n: d.exercises.length }) %></span>
+    </div>
+    <% if (d.note) { %><div class="chip expiring" style="margin-top:6px"><%= td(d.note) %></div><% } %>
+
+    <% if (!canEdit) { %>
+      <% for (const e of d.exercises) { %>
+        <div class="row"><span><b><%= e.exercise %></b><div class="muted small"><%= e.muscle %></div></span><span class="num"><%= e.sets %> × <%= e.reps %></span></div>
+      <% } %>
+    <% } else { %>
+      <details <%= d.exercises.length ? '' : 'open' %>>
+        <summary class="btn sm" style="margin-top:10px"><i class="ti ti-edit"></i> <%= t('تعديل اليوم') %></summary>
+        <form method="post" action="/program-days/<%= d.id %>" class="day-form">
+          <div class="grid" style="grid-template-columns:1fr 1fr;margin:10px 0">
+            <label><%= t('عنوان اليوم') %><input name="title" value="<%= d.title %>" maxlength="40" placeholder="<%= t('PUSH / صدر + تراي') %>"></label>
+            <label><%= t('ملاحظة') %><input name="note" value="<%= d.note %>" maxlength="120" placeholder="<%= t('اليوم التالي راحة') %>"></label>
+          </div>
+          <div class="ex-head muted small"><span><%= t('التمرين') %></span><span><%= t('العضلة') %></span><span><%= t('الجولات') %></span><span><%= t('التكرارات') %></span></div>
+          <% for (const e of [...d.exercises, {}, {}]) { %>
+            <div class="ex-row">
+              <input name="exercise" value="<%= e.exercise || '' %>" maxlength="80" placeholder="<%= e.exercise ? '' : t('+ تمرين جديد') %>" aria-label="<%= t('التمرين') %>">
+              <input name="muscle" value="<%= e.muscle || '' %>" maxlength="60" placeholder="<%= t('العضلة') %>" aria-label="<%= t('العضلة') %>">
+              <input name="sets" type="number" min="1" max="10" value="<%= e.sets || 3 %>" dir="ltr" aria-label="<%= t('الجولات') %>">
+              <input name="reps" value="<%= e.reps || '8-12' %>" maxlength="20" dir="ltr" aria-label="<%= t('التكرارات') %>">
+            </div>
+          <% } %>
+          <p class="muted small" style="margin:6px 0 10px"><%= t('لحذف تمرين امسح اسمه. ولإضافة تمرين املأ سطراً فارغاً (بعد الحفظ يظهر سطران فارغان جديدان).') %></p>
+          <button class="btn red sm"><i class="ti ti-device-floppy"></i> <%= t('حفظ اليوم') %></button>
+        </form>
+        <form method="post" action="/program-days/<%= d.id %>/delete" onsubmit="return confirm(<%= JSON.stringify(t('هل تريد حذف هذا اليوم كاملاً؟')) %>)" style="margin-top:8px">
+          <button class="btn ghost-danger sm"><i class="ti ti-trash"></i> <%= t('حذف هذا اليوم') %></button>
+        </form>
+      </details>
+      <div class="ex-list">
+        <% for (const e of d.exercises) { %>
+          <div class="row"><span><b><%= e.exercise %></b><div class="muted small"><%= e.muscle %></div></span><span class="num"><%= e.sets %> × <%= e.reps %></span></div>
+        <% } %>
+      </div>
+    <% } %>
+  </section>
+<% } %>
+<% if (canEdit) { %>
+  <form method="post" action="<%= addDayAction %>"><button class="btn"><i class="ti ti-plus"></i> <%= t('إضافة يوم') %></button></form>
+<% } %>

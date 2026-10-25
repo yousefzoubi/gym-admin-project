@@ -1,0 +1,240 @@
+<%- include('partials/head', { title: ['{x}', { x: m.name }] }) %>
+<% const staff = user.role !== 'trainer', admin = user.role === 'admin', coach = user.role !== 'reception'; %>
+<% if (flash && flash.type && flash.type.startsWith('ci-')) { %><div class="flash <%= ['ci-ok', 'ci-out'].includes(flash.type) ? 'success' : 'error' %>" role="status"><i class="ti ti-fingerprint"></i> <%= tt([flash.text, flash.detail]) %></div><% } %>
+
+<section class="card profile">
+  <div class="avatar" aria-hidden="true"><%= m.name.trim()[0] %></div>
+  <div style="flex:1;min-width:220px">
+    <h1><%= m.name %> <span class="muted small num">#<%= m.id %></span></h1>
+    <div class="muted small">
+      <i class="ti ti-phone"></i> <a class="num" href="tel:<%= m.phone %>"><%= m.phone %></a>
+      · <%= t('العمر {n}', { n: D.age(m.birth_date) }) %>
+      <% if (staff) { %>· <%= t('الرقم الوطني') %> <span class="num"><%= m.national_id %></span><% } %>
+      · <%= t('المدرّب: {name}', { name: m.trainer_name || t('بلا مدرّب') }) %>
+    </div>
+    <div class="muted small">
+      <%= t('عضو منذ') %> <span class="num"><%= m.created_at %></span>
+      · <%= m.password_hash ? t('✅ فعّل التطبيق') : t('⏳ لم يفعّل التطبيق') %>
+      · <i class="ti ti-fingerprint"></i> <%= m.fingerprint_id ? t('بصمة #{n}', { n: m.fingerprint_id }) : t('بلا بصمة') %>
+    </div>
+  </div>
+  <% if (staff) { %>
+    <div class="chips">
+      <a class="btn" href="/members/<%= m.id %>/edit"><i class="ti ti-edit"></i> <%= t('تعديل') %></a>
+      <% if (m.fingerprint_id) { %>
+        <form class="inline" method="post" action="/punch/<%= m.id %>"><input type="hidden" name="back" value="member"><button class="btn red"><i class="ti ti-fingerprint"></i> <%= t('محاكاة البصمة') %></button></form>
+      <% } %>
+    </div>
+  <% } %>
+</section>
+
+<section class="grid stats">
+  <% for (const [cat, label] of Object.entries(CATS)) { const c = s[cat]; const last = subs.find((x) => x.category === cat); %>
+    <div class="card stat">
+      <div class="label"><i class="ti <%= cat === 'iron' ? 'ti-barbell' : 'ti-hand-stop' %>"></i> <%= label %></div>
+      <% if (!c) { %>
+        <div class="value muted" style="font-size:18px"><%= STATUS.none %></div>
+      <% } else { const total = Math.max(1, D.daysBetween(last.start_date, last.end_date) + 1); %>
+        <div style="margin-top:6px"><span class="chip <%= c.status %>"><%= STATUS[c.status] %></span></div>
+        <div class="hint" style="margin-top:6px"><%= c.days >= 0 ? t('متبقٍّ {n} يوم', { n: c.days }) : t('انتهى منذ {n} يوم', { n: -c.days }) %> · <%= t('ينتهي في {date}', { date: c.end_date }) %></div>
+        <% if (c.days >= 0) { %><div class="progress <%= c.status %>"><span style="width: <%= Math.min(100, Math.round((c.days + 1) / total * 100)) %>%"></span></div><% } %>
+      <% } %>
+    </div>
+  <% } %>
+  <div class="card stat">
+    <div class="label"><i class="ti ti-target-arrow"></i> <%= t('الالتزام هذا الأسبوع') %></div>
+    <div class="value num" style="color:<%= adh.score >= 70 ? 'var(--green)' : adh.score >= 40 ? 'var(--amber)' : '#ff6b70' %>"><%= adh.score %>%</div>
+    <div class="hint"><%= t('الحضور {v}/{target} · التمارين {w}', { v: adh.visits, target: adh.target, w: adh.workouts }) %></div>
+  </div>
+  <% if (staff) { %>
+    <div class="card stat">
+      <div class="label"><i class="ti ti-wallet"></i> <%= t('المبلغ المتبقي عليه') %></div>
+      <div class="value <%= m.balance > 0 ? 'balance-due' : 'balance-ok' %>"><%= m.balance > 0 ? money(m.balance) : t('مسدَّد') %></div>
+      <% if (m.balance < 0) { %><div class="hint"><%= t('له رصيد {amount}', { amount: money(-m.balance) }) %></div><% } %>
+    </div>
+  <% } %>
+</section>
+
+<% if (staff) { %>
+<section class="grid two">
+  <form class="card form" method="post" action="/members/<%= m.id %>/subscriptions">
+    <h2 class="full"><%= t('اشتراك جديد / تجديد') %></h2>
+    <label><%= t('الباقة') %>
+      <select name="plan_id" id="plan" required>
+        <option value=""><%= t('اختر باقة') %></option>
+        <% for (const p of plans) { %><option value="<%= p.id %>" data-price="<%= p.price %>"><%= td(p.name) %> — <%= money(p.price) %></option><% } %>
+      </select>
+    </label>
+    <label><%= t('المدفوع الآن') %><input name="paid" id="paid" type="number" min="0" step="0.01" dir="ltr" placeholder="0"></label>
+    <p class="full muted small" style="margin:0"><%= t('إذا كان الاشتراك الحالي سارياً، يبدأ التجديد بعد انتهائه، فلا يضيع أي يوم.') %></p>
+    <div class="full"><button class="btn red"><i class="ti ti-plus"></i> <%= t('إضافة الاشتراك') %></button></div>
+  </form>
+
+  <form class="card form" method="post" action="/members/<%= m.id %>/payments">
+    <h2 class="full"><%= t('تسجيل دفعة') %></h2>
+    <label><%= t('المبلغ') %><input name="amount" type="number" min="0.01" step="0.01" required dir="ltr" value="<%= m.balance > 0 ? m.balance : '' %>"></label>
+    <label><%= t('ملاحظة') %><input name="note" maxlength="200" placeholder="<%= t('باقي اشتراك الحديد') %>"></label>
+    <div class="full"><button class="btn red"><i class="ti ti-cash"></i> <%= t('تسجيل الدفعة') %></button></div>
+  </form>
+</section>
+<% } %>
+
+<section class="grid two" id="coach">
+  <div class="card">
+    <h2><i class="ti ti-target-arrow"></i> <%= t('الهدف والتغذية') %></h2>
+    <% if (coach) { %>
+    <form class="form" method="post" action="/members/<%= m.id %>/goals">
+      <label><%= t('الهدف') %>
+        <select name="goal_type"><option value="">—</option><% for (const [k, v] of Object.entries(GOALS)) { %><option value="<%= k %>" <%= m.goal_type === k ? 'selected' : '' %>><%= v %></option><% } %></select>
+      </label>
+      <label><%= t('الوزن المستهدف (كغ)') %><input name="goal_weight" type="number" step="0.1" value="<%= m.goal_weight ?? '' %>" dir="ltr"></label>
+      <label><%= t('نسبة الدهون المستهدفة %') %><input name="goal_pbf" type="number" step="0.1" value="<%= m.goal_pbf ?? '' %>" dir="ltr"></label>
+      <label><%= t('قبل تاريخ') %><input name="goal_date" type="date" value="<%= m.goal_date || '' %>" dir="ltr"></label>
+      <label><%= t('أيام التمرين في الأسبوع') %><input name="target_days" type="number" min="1" max="7" value="<%= m.target_days %>" dir="ltr"></label>
+      <label><%= t('السعرات اليومية') %><input name="kcal" type="number" value="<%= m.kcal ?? '' %>" dir="ltr"></label>
+      <label><%= t('بروتين (غ)') %><input name="protein" type="number" value="<%= m.protein ?? '' %>" dir="ltr"></label>
+      <label><%= t('كربوهيدرات (غ)') %><input name="carbs" type="number" value="<%= m.carbs ?? '' %>" dir="ltr"></label>
+      <label><%= t('دهون (غ)') %><input name="fat" type="number" value="<%= m.fat ?? '' %>" dir="ltr"></label>
+      <label><%= t('ماء (لتر)') %><input name="water" type="number" step="0.5" value="<%= m.water ?? '' %>" dir="ltr"></label>
+      <div class="full"><button class="btn red sm"><%= t('حفظ الهدف والتغذية') %></button></div>
+    </form>
+    <% } else { %>
+      <div class="row"><span class="muted"><%= t('الهدف') %></span><b><%= GOALS[m.goal_type] || '—' %></b></div>
+      <div class="row"><span class="muted"><%= t('السعرات') %></span><b><%= m.kcal || '—' %></b></div>
+    <% } %>
+  </div>
+  <div class="card">
+    <div class="top"><h2 style="margin:0"><i class="ti ti-list-details"></i> <%= t('جدول التمارين') %></h2><a class="btn sm red" href="/members/<%= m.id %>/program"><%= program.length ? t('فتح وتعديل') : t('اختيار جدول') %></a></div>
+    <% if (!program.length) { %>
+      <div class="empty"><%= t('لا يوجد له جدول بعد.') %></div>
+    <% } else { %>
+      <div class="muted small" style="margin:6px 0"><%= templateName ? t('من قالب: {name}', { name: td(templateName) }) : t('جدول خاص') %></div>
+      <% for (const d of program) { %><div class="row"><span><%= t('اليوم {n}', { n: d.day_no }) %><%= d.title ? ` · ${td(d.title)}` : '' %></span><span class="muted small"><%= summary(d) %></span></div><% } %>
+    <% } %>
+    <% if (m.notes) { %><h2 style="margin-top:16px"><%= t('ملاحظات') %></h2><div class="program"><%= m.notes %></div><% } %>
+    <% if (prs.length) { %>
+      <h2 style="margin-top:16px">🏆 <%= t('أعلى أوزانه') %></h2>
+      <% for (const p of prs.slice(0, 8)) { %><div class="row"><span><%= p.exercise %></span><b class="num"><%= t('{n} كغ', { n: p.weight }) %> <span class="muted small"><%= p.day %></span></b></div><% } %>
+    <% } %>
+  </div>
+</section>
+
+<section class="card" id="inbody">
+  <h2><i class="ti ti-scale"></i> <%= t('فحوصات InBody') %></h2>
+  <% const wc = chart(inbody.slice().reverse().map((x) => x.weight)); const pc = chart(inbody.slice().reverse().map((x) => x.pbf)); %>
+  <% if (wc || pc) { %>
+  <div class="grid two" style="margin-bottom:14px">
+    <% for (const [c, label, color] of [[wc, t('الوزن'), 'var(--red)'], [pc, t('نسبة الدهون'), 'var(--amber)']]) { if (!c) continue; %>
+      <div><div class="muted small"><%= label %> (<%= c.min %> – <%= c.max %>)</div>
+      <svg viewBox="0 0 <%= c.w %> <%= c.h %>" class="spark" role="img" aria-label="<%= label %>"><polyline points="<%= c.points %>" fill="none" stroke="<%= color %>" stroke-width="2.5" stroke-linejoin="round"/><circle cx="<%= c.last[0] %>" cy="<%= c.last[1] %>" r="4" fill="<%= color %>"/></svg></div>
+    <% } %>
+  </div>
+  <% } %>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th><%= t('التاريخ') %></th><th><%= t('الوزن') %></th><th><%= t('العضل SMM') %></th><th><%= t('الدهون BFM') %></th><th><%= t('الدهون %') %></th><th class="hide-sm">BMI</th><th class="hide-sm"><%= t('الحشوية') %></th><th class="hide-sm">BMR</th><th class="hide-sm"><%= t('الماء') %></th><th>Score</th><% if (admin) { %><th></th><% } %></tr></thead>
+    <tbody>
+    <% inbody.forEach((x, i) => { const prev = inbody[i + 1]; const d = (k, good) => { if (!prev || x[k] == null || prev[k] == null) return ''; const v = Math.round((x[k] - prev[k]) * 10) / 10; if (!v) return ''; return `<span style="color:${(v > 0) === (good > 0) ? 'var(--green)' : '#ff6b70'};font-size:12px"> ${v > 0 ? '▲' : '▼'}${Math.abs(v)}</span>`; }; %>
+      <tr>
+        <td class="num"><%= x.day %></td>
+        <td class="num"><%= x.weight %><%- d('weight', m.goal_type === 'weight_gain' || m.goal_type === 'muscle' ? 1 : -1) %></td>
+        <td class="num"><%= x.smm ?? '—' %><%- d('smm', 1) %></td>
+        <td class="num"><%= x.bfm ?? '—' %><%- d('bfm', -1) %></td>
+        <td class="num"><%= x.pbf ?? '—' %><%- d('pbf', -1) %></td>
+        <td class="num hide-sm"><%= x.bmi ?? '—' %></td><td class="num hide-sm"><%= x.visceral ?? '—' %></td><td class="num hide-sm"><%= x.bmr ?? '—' %></td><td class="num hide-sm"><%= x.tbw ?? '—' %></td>
+        <td class="num"><b><%= x.score ?? '—' %></b></td>
+        <% if (admin) { %><td><form class="inline" method="post" action="/inbody/<%= x.id %>/delete" onsubmit="<%= ask('هل تريد حذف هذا الفحص؟') %>"><button class="btn ghost-danger" aria-label="<%= t('حذف') %>"><i class="ti ti-trash"></i></button></form></td><% } %>
+      </tr>
+    <% }) %>
+    <% if (!inbody.length) { %><tr><td colspan="11" class="empty"><%= t('لا توجد فحوصات بعد.') %></td></tr><% } %>
+    </tbody>
+  </table>
+  </div>
+  <details style="margin-top:12px">
+    <summary class="btn sm red">+ <%= t('فحص جديد') %></summary>
+    <form class="form" method="post" action="/members/<%= m.id %>/inbody" style="margin-top:12px">
+      <label><%= t('التاريخ') %><input name="day" type="date" value="<%= today %>" dir="ltr"></label>
+      <label><%= t('الوزن (كغ) *') %><input name="weight" type="number" step="0.1" required dir="ltr"></label>
+      <label><%= t('كتلة العضل SMM') %><input name="smm" type="number" step="0.1" dir="ltr"></label>
+      <label><%= t('كتلة الدهون BFM') %><input name="bfm" type="number" step="0.1" dir="ltr"></label>
+      <label><%= t('نسبة الدهون PBF %') %><input name="pbf" type="number" step="0.1" dir="ltr"></label>
+      <label>BMI<input name="bmi" type="number" step="0.1" dir="ltr"></label>
+      <label><%= t('الدهون الحشوية') %><input name="visceral" type="number" dir="ltr"></label>
+      <label>BMR<input name="bmr" type="number" dir="ltr"></label>
+      <label><%= t('ماء الجسم TBW') %><input name="tbw" type="number" step="0.1" dir="ltr"></label>
+      <label>InBody Score<input name="score" type="number" dir="ltr"></label>
+      <div class="full"><button class="btn red"><%= t('حفظ الفحص') %></button></div>
+    </form>
+  </details>
+</section>
+
+<section class="grid two">
+  <div class="card">
+    <h2><%= t('آخر الزيارات') %></h2>
+    <% if (!visits.length) { %><div class="empty"><%= t('لا توجد زيارات.') %></div><% } %>
+    <% for (const v of visits.slice(0, 10)) { %><div class="row"><span class="num"><%= v.gym_day %> <span class="chip none"><%= CATS[v.category] %></span></span><span class="muted num small"><%= v.checked_at.slice(11, 16) %> <%= arrow %> <%= v.checked_out_at ? `${v.checked_out_at.slice(11, 16)} · ${fmtDur(minutes(v.checked_at, v.checked_out_at))}` : '—' %></span></div><% } %>
+  </div>
+  <div class="card">
+    <h2>🏋️ <%= t('آخر تمارينه') %></h2>
+    <% if (!workouts.length) { %><div class="empty"><%= t('لم يسجّل جولات بعد.') %></div><% } %>
+    <% let lastDay = null; for (const w of workouts) { %>
+      <% if (w.day !== lastDay) { lastDay = w.day; %><div class="muted small num" style="margin-top:8px"><%= w.day %></div><% } %>
+      <div class="row"><span><%= w.exercise %></span><span class="sets"><% for (const x of w.sets) { %><span class="set <%= x.is_pr ? 'pr' : '' %> <%= x.reps ? 'fail' : '' %>"><%= x.weight %><%= x.reps ? `×${x.reps}` : '' %></span><% } %></span></div>
+    <% } %>
+  </div>
+  <% if (staff) { %>
+  <div class="card">
+    <h2><%= t('مشترياته من المتجر') %></h2>
+    <% if (!purchases.length) { %><div class="empty"><%= t('لا توجد مشتريات.') %></div><% } %>
+    <% for (const p of purchases) { %><div class="row"><span><%= p.items %><div class="muted small num"><%= p.gym_day %></div></span><span><b><%= money(p.total) %></b> <span class="chip <%= p.method === 'account' ? 'expiring' : 'active' %>"><%= p.method === 'account' ? t('على الحساب') : t('نقداً') %></span></span></div><% } %>
+  </div>
+  <% } %>
+</section>
+
+<% if (staff) { %>
+<section class="card table-wrap">
+  <h2><%= t('سجل الاشتراكات') %></h2>
+  <% if (!subs.length) { %><div class="empty"><%= t('لا توجد اشتراكات.') %></div><% } else { %>
+  <table>
+    <thead><tr><th><%= t('الباقة') %></th><th><%= t('من') %></th><th><%= t('إلى') %></th><th><%= t('السعر') %></th><% if (admin) { %><th></th><% } %></tr></thead>
+    <tbody>
+    <% for (const x of subs) { %>
+      <tr>
+        <td><%= td(x.plan_name) %></td><td class="num"><%= x.start_date %></td><td class="num"><%= x.end_date %></td><td><%= money(x.price) %></td>
+        <% if (admin) { %><td><form class="inline" method="post" action="/subscriptions/<%= x.id %>/delete" onsubmit="<%= ask('هل تريد حذف هذا الاشتراك؟') %>"><button class="btn ghost-danger" aria-label="<%= t('حذف') %>"><i class="ti ti-trash"></i></button></form></td><% } %>
+      </tr>
+    <% } %>
+    </tbody>
+  </table>
+  <% } %>
+</section>
+
+<section class="card table-wrap">
+  <h2><%= t('الدفعات') %></h2>
+  <% if (!payments.length) { %><div class="empty"><%= t('لا توجد دفعات.') %></div><% } else { %>
+  <table>
+    <thead><tr><th><%= t('التاريخ') %></th><th><%= t('المبلغ') %></th><th><%= t('ملاحظة') %></th><th class="hide-sm"><%= t('سجّلها') %></th><% if (admin) { %><th></th><% } %></tr></thead>
+    <tbody>
+    <% for (const p of payments) { %>
+      <tr>
+        <td class="num"><%= p.paid_at %></td><td><b><%= money(p.amount) %></b></td><td class="muted"><%= td(p.note) %></td><td class="hide-sm muted"><%= p.by_name || '—' %></td>
+        <% if (admin) { %><td><form class="inline" method="post" action="/payments/<%= p.id %>/delete" onsubmit="<%= ask('هل تريد حذف هذه الدفعة؟') %>"><button class="btn ghost-danger" aria-label="<%= t('حذف') %>"><i class="ti ti-trash"></i></button></form></td><% } %>
+      </tr>
+    <% } %>
+    </tbody>
+  </table>
+  <% } %>
+</section>
+
+<div class="chips">
+  <% if (admin) { %>
+  <form method="post" action="/members/<%= m.id %>/delete" onsubmit="<%= ask('هل تريد حذف هذا العضو نهائياً مع جميع اشتراكاته ودفعاته؟') %>"><button class="btn ghost-danger"><i class="ti ti-trash"></i> <%= t('حذف العضو') %></button></form>
+  <% } %>
+</div>
+<% } %>
+
+<script>
+  const plan = document.getElementById('plan');
+  if (plan) plan.addEventListener('change', () => { document.getElementById('paid').value = plan.selectedOptions[0].dataset.price || ''; });
+</script>
+<%- include('partials/foot') %>

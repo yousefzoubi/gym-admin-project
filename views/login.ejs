@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="<%= lang %>" dir="<%= dir %>">
+<head>
+<%- include('partials/meta') %>
+<title><%= t('تسجيل الدخول') %> · IRON MAN</title>
+</head>
+<body>
+<div class="login">
+  <form class="card" method="post" action="/login">
+    <div style="text-align:end"><%- include('partials/lang-switch') %></div>
+    <img src="/img/logo.webp" alt="IRON MAN">
+    <h1>IRON MAN GYM</h1>
+    <p class="muted small"><%= t('بإدارة النادي') %></p>
+    <% if (error) { %><div class="flash error" role="alert"><%= tt(error) %></div><% } %>
+    <label><%= t('رقم الهاتف أو اسم المستخدم') %><input name="username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required autofocus dir="ltr" placeholder="07XXXXXXXX"></label>
+    <label><%= t('كلمة المرور') %><input name="password" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" required dir="ltr"></label>
+    <button class="btn red"><%= t('دخول') %></button>
+    <div class="grid" style="grid-template-columns:1fr 1fr">
+      <a class="btn" href="/activate"><i class="ti ti-user-check"></i> <%= t('تفعيل حساب المشترك') %></a>
+      <a class="btn" href="/forgot"><i class="ti ti-key"></i> <%= t('نسيت كلمة المرور') %></a>
+    </div>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<%- include('partials/head', { title: 'المنتجات' }) %>
+<div class="top">
+  <h1><%= t('المنتجات والمخزون') %></h1>
+  <a class="btn red" href="/shop"><i class="ti ti-shopping-cart"></i> <%= t('شاشة البيع') %></a>
+</div>
+
+<section class="card">
+  <div class="top">
+    <h2 style="margin:0"><%= t('تقرير المبيعات') %></h2>
+    <form method="get" style="display:flex;gap:8px"><input type="month" name="month" value="<%= month %>" dir="ltr" aria-label="<%= t('الشهر') %>"><button class="btn"><%= t('عرض') %></button></form>
+  </div>
+  <div class="grid stats" style="margin:12px 0">
+    <div class="stat"><div class="label"><%= t('المبيعات') %></div><div class="value"><%= money(report.reduce((a, r) => a + r.sales, 0)) %></div></div>
+    <div class="stat"><div class="label"><%= t('الربح') %></div><div class="value balance-ok"><%= money(report.reduce((a, r) => a + r.profit, 0)) %></div></div>
+  </div>
+  <% if (!report.length) { %><div class="empty"><%= t('لا توجد مبيعات في هذا الشهر.') %></div><% } %>
+  <% for (const r of report) { %><div class="row"><span><%= td(r.name) %> <span class="muted small">×<%= r.qty %></span></span><span><%= money(r.sales) %> <span class="muted small"><%= t('الربح {amount}', { amount: money(r.profit) }) %></span></span></div><% } %>
+</section>
+
+<h2><%= t('المنتجات') %></h2>
+<% for (const p of products) { const exp = p.expiry_date && D.daysBetween(today, p.expiry_date) <= 30; %>
+<form class="card form" method="post" action="/shop/products/<%= p.id %>" style="<%= p.active ? '' : 'opacity:.6' %>">
+  <label><%= t('الاسم') %><input name="name" value="<%= p.name %>" required maxlength="100"></label>
+  <label><%= t('النوع') %><select name="type"><% for (const [k, v] of Object.entries(PRODUCT_TYPES)) { %><option value="<%= k %>" <%= p.type === k ? 'selected' : '' %>><%= v %></option><% } %></select></label>
+  <label><%= t('سعر البيع') %><input name="price" type="number" step="0.01" min="0" value="<%= p.price %>" required dir="ltr"></label>
+  <label><%= t('سعر الشراء') %><input name="cost" type="number" step="0.01" min="0" value="<%= p.cost %>" required dir="ltr"></label>
+  <label><%= t('الكمية') %> <% if (p.stock <= p.low_stock) { %><span class="chip expired"><%= t('منخفضة') %></span><% } %><input name="stock" type="number" min="0" value="<%= p.stock %>" required dir="ltr"></label>
+  <label><%= t('نبّهني عند أقل من') %><input name="low_stock" type="number" min="0" value="<%= p.low_stock %>" dir="ltr"></label>
+  <label><%= t('تاريخ الانتهاء') %> <% if (exp) { %><span class="chip expired"><%= t('قريب') %></span><% } %><input name="expiry_date" type="date" value="<%= p.expiry_date || '' %>" dir="ltr"></label>
+  <label class="check"><input type="checkbox" name="active" value="1" <%= p.active ? 'checked' : '' %>> <%= t('معروض') %></label>
+  <div><button class="btn"><%= t('حفظ') %></button></div>
+</form>
+<% } %>
+
+<form class="card form" method="post" action="/shop/products">
+  <h2 class="full"><%= t('منتج جديد') %></h2>
+  <label><%= t('الاسم') %><input name="name" required maxlength="100" placeholder="<%= t('واي بروتين 2 كغ') %>"></label>
+  <label><%= t('النوع') %><select name="type"><% for (const [k, v] of Object.entries(PRODUCT_TYPES)) { %><option value="<%= k %>"><%= v %></option><% } %></select></label>
+  <label><%= t('سعر البيع') %><input name="price" type="number" step="0.01" min="0" required dir="ltr"></label>
+  <label><%= t('سعر الشراء') %><input name="cost" type="number" step="0.01" min="0" required dir="ltr"></label>
+  <label><%= t('الكمية') %><input name="stock" type="number" min="0" required dir="ltr"></label>
+  <label><%= t('نبّهني عند أقل من') %><input name="low_stock" type="number" min="0" value="3" dir="ltr"></label>
+  <label><%= t('تاريخ الانتهاء') %><input name="expiry_date" type="date" dir="ltr"></label>
+  <label class="check"><input type="checkbox" name="announce" value="1"> <%= t('أرسل إشعاراً إلى المشتركين') %></label>
+  <div class="full"><button class="btn red"><i class="ti ti-plus"></i> <%= t('إضافة') %></button></div>
+</form>
+<%- include('partials/foot') %>

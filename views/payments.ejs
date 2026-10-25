@@ -1,0 +1,47 @@
+<%- include('partials/head', { title: 'الدفعات' }) %>
+<div class="top">
+  <h1><%= t('الدفعات') %></h1>
+  <form method="get" style="display:flex;gap:8px">
+    <input type="month" name="month" value="<%= month %>" aria-label="<%= t('الشهر') %>" dir="ltr">
+    <button class="btn"><%= t('عرض') %></button>
+  </form>
+</div>
+
+<section class="grid stats">
+  <div class="card stat accent"><div class="label"><%= t('مجموع الشهر') %></div><div class="value"><%= money(total) %></div><div class="hint"><%= t('{n} دفعة', { n: rows.length }) %></div></div>
+  <div class="card stat"><div class="label"><%= t('ديون على الأعضاء') %></div><div class="value balance-due"><%= money(owing.reduce((a, o) => a + o.balance, 0)) %></div><div class="hint"><%= t('{n} عضواً', { n: owing.length }) %></div></div>
+</section>
+
+<section class="grid two">
+  <div class="card table-wrap">
+    <h2><%= t('دفعات') %> <span class="num"><%= month %></span></h2>
+    <% if (!rows.length) { %><div class="empty"><%= t('لا توجد دفعات في هذا الشهر.') %></div><% } else { %>
+    <table>
+      <thead><tr><th><%= t('التاريخ') %></th><th><%= t('العضو') %></th><th><%= t('المبلغ') %></th><th class="hide-sm"><%= t('ملاحظة') %></th><th class="hide-sm"><%= t('سجّلها') %></th><th></th></tr></thead>
+      <tbody>
+      <% for (const p of rows) { %>
+        <tr>
+          <td class="num"><%= p.paid_at %></td>
+          <td><a href="/members/<%= p.member_id %>"><%= p.member_name %></a></td>
+          <td><b><%= money(p.amount) %></b></td>
+          <td class="hide-sm muted"><%= td(p.note) %></td>
+          <td class="hide-sm muted"><%= p.by_name || '—' %></td>
+          <td><form class="inline" method="post" action="/payments/<%= p.id %>/delete" onsubmit="<%= ask('هل تريد حذف هذه الدفعة؟') %>"><button class="btn ghost-danger" aria-label="<%= t('حذف') %>"><i class="ti ti-trash"></i></button></form></td>
+        </tr>
+      <% } %>
+      </tbody>
+    </table>
+    <% } %>
+  </div>
+  <div class="card">
+    <h2><%= t('أعضاء عليهم مبالغ') %></h2>
+    <% if (!owing.length) { %><div class="empty"><%= t('لا توجد مبالغ مستحقة على أحد.') %></div><% } %>
+    <% for (const o of owing) { %>
+      <div class="row">
+        <div><a href="/members/<%= o.id %>"><b><%= o.name %></b></a><div class="muted small num"><%= o.phone %></div></div>
+        <span class="balance-due"><%= money(o.balance) %></span>
+      </div>
+    <% } %>
+  </div>
+</section>
+<%- include('partials/foot') %>

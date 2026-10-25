@@ -1,0 +1,6 @@
+<div class="chips">
+<% let any = false; for (const [cat, label] of Object.entries(CATS)) { const c = s[cat]; if (!c) continue; any = true; %>
+  <span class="chip <%= c.status %>" title="<%= t('ينتهي في {date}', { date: c.end_date }) %>"><%= label %>: <%= STATUS[c.status] %><% if (c.status === 'expiring') { %> (<%= t('{n} يوم', { n: c.days }) %>)<% } %></span>
+<% } %>
+<% if (!any) { %><span class="chip none"><%= STATUS.none %></span><% } %>
+</div>

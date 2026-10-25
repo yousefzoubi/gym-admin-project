@@ -1,0 +1,35 @@
+<%# tpl = the template being edited, or null for a member's own program %>
+<% const tp = tpl; %>
+<%- include('partials/head') %>
+<% if (tp) { %>
+  <div class="top">
+    <h1><i class="ti ti-list-details"></i> <%= td(tp.name) %></h1>
+    <a class="btn" href="/templates"><%= t('جميع الجداول') %></a>
+  </div>
+  <form class="card form" method="post" action="/templates/<%= tp.id %>">
+    <label><%= t('اسم الجدول') %><input name="name" value="<%= tp.name %>" required maxlength="60"></label>
+    <label><%= t('ملاحظة عامة') %><input name="note" value="<%= tp.note %>" maxlength="200"></label>
+    <div><button class="btn sm"><%= t('حفظ') %></button></div>
+  </form>
+  <% if (tp.note) { %><p class="muted small" style="margin:0"><%= td(tp.note) %></p><% } %>
+  <p class="muted small" style="margin:0"><i class="ti ti-info-circle"></i> <%= t('تعديل القالب لا يغيّر جداول المشتركين الذين أخذوه سابقاً، لأن لكل مشترك نسخته الخاصة.') %></p>
+<% } else { %>
+  <div class="top">
+    <h1><i class="ti ti-list-details"></i> <%= t('جدول {name}', { name: m.name }) %></h1>
+    <a class="btn" href="/members/<%= m.id %>"><%= t('ملف العضو') %></a>
+  </div>
+  <form class="card" method="post" action="/members/<%= m.id %>/assign" style="display:flex;gap:8px;align-items:end;flex-wrap:wrap" onsubmit="<%= days.length ? ask('سيُستبدل الجدول الحالي بنسخة جديدة من القالب. هل أنت متأكد؟') : 'return true' %>">
+    <label style="flex:1;min-width:200px"><%= m.template_name ? t('مأخوذ من: {name}. التبديل إلى قالب آخر:', { name: td(m.template_name) }) : t('اختر جدولاً من القوالب') %>
+      <select name="template_id" required>
+        <option value="">—</option>
+        <% for (const x of templates) { %><option value="<%= x.id %>" <%= x.id === m.template_id ? 'selected' : '' %>><%= td(x.name) %></option><% } %>
+      </select>
+    </label>
+    <button class="btn red"><i class="ti ti-check"></i> <%= days.length ? t('استبدال') : t('اختيار') %></button>
+  </form>
+  <% if (!canEdit) { %><p class="muted small" style="margin:0"><%= t('تعديل الأيام متاح للمدرّب والمشترك.') %></p><% } else { %>
+  <p class="muted small" style="margin:0"><i class="ti ti-users"></i> <%= t('هذا جدول {name} الخاص. أي تعديل منك أو منه يرسل إشعاراً إلى الطرف الآخر.', { name: m.name }) %></p><% } %>
+<% } %>
+
+<%- include('partials/program-days') %>
+<%- include('partials/foot') %>

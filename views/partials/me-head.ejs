@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="<%= lang %>" dir="<%= dir %>">
+<head>
+<%- include('meta') %>
+<title><%= tt(title) %> · IRON MAN</title>
+</head>
+<body class="app">
+<header class="app-top">
+  <a href="/me" class="brand"><img src="/img/logo.webp" alt="IRON MAN"><b>IRON <span>MAN</span></b></a>
+  <div class="chips">
+    <%- include('lang-switch') %>
+    <a href="/me/notifications" class="bell" aria-label="<%= t('الإشعارات') %>"><i class="ti ti-bell"></i><% if (unread) { %><em class="badge"><%= unread %></em><% } %></a>
+  </div>
+</header>
+<main class="app-main">
+<% if (flash && (flash.type === 'success' || flash.type === 'error')) { %>
+  <div class="flash <%= flash.type %>" role="status"><%= tt(flash.text) %></div>
+<% } %>

@@ -1,0 +1,113 @@
+<%- include('../partials/me-head', { title: 'تمريني' }) %>
+<% const fmtSets = (sets) => sets.map((x) => x.reps ? `${x.weight}×${x.reps}` : x.weight).join(' · '); %>
+
+<% if (visit) { %>
+  <section class="card timer-card">
+    <div class="muted small"><%= t('أنت في النادي منذ الساعة {t} · {cat}', { t: visit.checked_at.slice(11, 16), cat: CATS[visit.category] }) %></div>
+    <div class="timer num" data-since="<%= visit.checked_at %>">00:00:00</div>
+    <div class="muted small"><%= t('البصمة التالية على الجهاز تسجّل خروجك وتوقف العدّاد') %></div>
+  </section>
+<% } %>
+<%- include('../partials/me-punch', { visit }) %>
+
+<% if (pr) { %>
+  <section class="card celebrate <%= pr.pr ? 'fire' : '' %>" role="status">
+    <% if (pr.pr) { %>
+      <div class="big-emoji">🔥</div>
+      <h2><%= t('وزن جديد!') %></h2>
+      <p><b><%= pr.exercise %></b>: <b class="num"><%= t('{n} كغ', { n: pr.top }) %></b> <span class="muted"><%= t('(أعلى وزن سابق: {n} كغ)', { n: pr.prevMax }) %></span></p>
+      <p class="muted small"><%= t('+{n} كغ. واصل يا بطل 💪', { n: Math.round((pr.top - pr.prevMax) * 10) / 10 }) %></p>
+    <% } else if (pr.moreReps) { %>
+      <div class="big-emoji">💪</div>
+      <h2><%= t('تكرارات أكثر من المرة السابقة!') %></h2>
+      <p><b><%= pr.exercise %></b>: <span class="num"><%= t('{w} كغ × {r}', { w: pr.prevLast.weight, r: pr.reps }) %></span> <span class="muted"><%= t('(كانت {n})', { n: pr.prevLast.reps }) %></span></p>
+    <% } else if (pr.first) { %>
+      <div class="big-emoji">📍</div>
+      <h2><%= t('أول مرة تسجّل {name}', { name: pr.exercise }) %></h2>
+      <p class="muted"><%= t('هذه نقطة البداية، وسنقارن بها في المرة القادمة.') %></p>
+    <% } else { %>
+      <h2><%= t('تم الحفظ ✅') %></h2>
+      <p class="muted"><%= t('أعلى وزن لك في هذا التمرين: {n} كغ. اقتربت!', { n: pr.prevMax }) %></p>
+    <% } %>
+  </section>
+<% } %>
+
+<% if (!days.length) { %>
+  <section class="card empty"><%= t('ليس لديك جدول بعد. يختار لك المدرّب أو الاستقبال جدولاً، ثم تظهر تمارينك هنا جاهزة.') %></section>
+<% } else { %>
+  <div class="day-tabs" role="tablist">
+    <% for (const d of days) { %>
+      <a role="tab" aria-selected="<%= day && d.day_no === day.day_no %>" class="<%= day && d.day_no === day.day_no ? 'on' : '' %>" href="/me/workout?day=<%= d.day_no %>">
+        <b><%= t('اليوم {n}', { n: d.day_no }) %></b><span><%= d.title ? td(d.title) : summary(d) %></span>
+      </a>
+    <% } %>
+  </div>
+
+  <% if (day) { %>
+    <% const doneCount = plan.filter((e) => e.done).length; %>
+    <div class="top">
+      <h2 style="margin:0"><%= t('اليوم {n}', { n: day.day_no }) %><%= day.title ? ` · ${td(day.title)}` : '' %></h2>
+      <span class="chip <%= doneCount === plan.length && plan.length ? 'active' : 'none' %>"><%= t('{done}/{total} مكتمل', { done: doneCount, total: plan.length }) %></span>
+    </div>
+    <% if (plan.length) { %><div class="progress"><span style="width:<%= Math.round(doneCount / plan.length * 100) %>%"></span></div><% } %>
+
+    <% plan.forEach((e, i) => { %>
+      <section class="card ex-card <%= e.done ? 'done' : '' %>" id="ex-<%= i %>">
+        <div class="top">
+          <div><b><%= e.exercise %></b><div class="muted small"><%= e.muscle %> · <%= t('الهدف') %> <span class="num"><%= e.sets %> × <%= e.reps %></span></div></div>
+          <% if (e.done) { %><span class="chip active"><i class="ti ti-check"></i> <%= t('مكتمل') %></span><% } %>
+        </div>
+        <% if (e.done) { %>
+          <div class="sets"><% for (const x of e.done.sets) { %><span class="set <%= x.is_pr ? 'pr' : '' %> <%= x.reps ? 'fail' : '' %>"><%= x.weight %><%= x.reps ? `×${x.reps}` : '' %><%= x.is_pr ? ' 🔥' : '' %></span><% } %></div>
+          <form method="post" action="/me/workout/delete" onsubmit="<%= ask('هل تريد إعادة هذا التمرين؟') %>" style="margin-top:6px"><input type="hidden" name="exercise" value="<%= e.exercise %>"><input type="hidden" name="day_no" value="<%= day.day_no %>"><button class="btn sm"><i class="ti ti-refresh"></i> <%= t('إعادة') %></button></form>
+        <% } else { %>
+          <% if (e.last.length) { %><div class="hint-box"><%= t('المرة السابقة:') %> <b class="num" dir="ltr"><%= fmtSets(e.last) %></b></div><% } %>
+          <form method="post" action="/me/workout" class="quick-sets">
+            <input type="hidden" name="exercise" value="<%= e.exercise %>">
+            <input type="hidden" name="day_no" value="<%= day.day_no %>">
+            <div class="weights" style="--n:<%= e.sets %>">
+              <% for (let k = 0; k < e.sets; k++) { const prev = e.last[Math.min(k, e.last.length - 1)]; %>
+                <label><span class="muted small"><%= t('ج{n}', { n: k + 1 }) %></span><input name="weight" type="number" step="0.5" min="0" max="500" inputmode="decimal" dir="ltr" required placeholder="<%= prev ? prev.weight : t('كغ') %>" aria-label="<%= t('وزن الجولة {n}', { n: k + 1 }) %>"></label>
+              <% } %>
+            </div>
+            <div class="reps-line">
+              <label><span class="muted small">🎯 <%= t('تكرارات الجولة الأخيرة (حتى الفشل)') %></span><input name="reps" type="number" min="1" max="100" inputmode="numeric" dir="ltr" required placeholder="<%= e.last.length ? e.last[e.last.length - 1].reps || '' : e.reps %>" aria-label="<%= t('تكرارات الجولة الأخيرة') %>"></label>
+              <button class="btn red"><i class="ti ti-check"></i> <%= t('حفظ') %></button>
+            </div>
+          </form>
+        <% } %>
+      </section>
+    <% }) %>
+    <% if (!plan.length) { %><section class="card empty"><%= t('هذا اليوم فارغ في جدولك. عدّله من "جدولي".') %></section><% } %>
+  <% } %>
+<% } %>
+
+<details class="card">
+  <summary class="btn sm"><i class="ti ti-plus"></i> <%= t('تمرين إضافي (خارج الجدول)') %></summary>
+  <form method="post" action="/me/workout" id="wf" style="margin-top:12px">
+    <label><%= t('التمرين') %><input name="exercise" required maxlength="60" placeholder="<%= t('بنش بريس') %>" list="exlist" autocomplete="off"></label>
+    <datalist id="exlist"><% for (const x of known) { %><option value="<%= x %>"><% } %></datalist>
+    <div class="weights" style="--n:4;margin-top:10px">
+      <% for (let k = 0; k < 4; k++) { %><label><span class="muted small"><%= t('ج{n}', { n: k + 1 }) %></span><input name="weight" type="number" step="0.5" min="0" max="500" dir="ltr" <%= k < 3 ? 'required' : '' %> aria-label="<%= t('وزن الجولة {n}', { n: k + 1 }) %>"></label><% } %>
+    </div>
+    <div class="reps-line"><label><span class="muted small">🎯 <%= t('تكرارات الجولة الأخيرة') %></span><input name="reps" type="number" min="1" max="100" dir="ltr" required aria-label="<%= t('تكرارات الجولة الأخيرة') %>"></label><button class="btn red"><%= t('حفظ') %></button></div>
+  </form>
+</details>
+
+<% const extra = today.filter((w) => !plan.some((e) => e.exercise === w.exercise)); %>
+<% if (extra.length) { %>
+<section class="card">
+  <h2><%= t('تمارين إضافية اليوم') %></h2>
+  <% for (const w of extra) { %>
+    <div class="row">
+      <div><b><%= w.exercise %></b><div class="sets"><% for (const x of w.sets) { %><span class="set <%= x.is_pr ? 'pr' : '' %> <%= x.reps ? 'fail' : '' %>"><%= x.weight %><%= x.reps ? `×${x.reps}` : '' %><%= x.is_pr ? ' 🔥' : '' %></span><% } %></div></div>
+      <form method="post" action="/me/workout/delete" onsubmit="<%= ask('هل تريد الحذف؟') %>"><input type="hidden" name="exercise" value="<%= w.exercise %>"><button class="btn ghost-danger" aria-label="<%= t('حذف') %>"><i class="ti ti-trash"></i></button></form>
+    </div>
+  <% } %>
+</section>
+<% } %>
+<script>
+  // An empty 4th set in the extra form is optional: drop it before sending
+  document.getElementById('wf').addEventListener('submit', (e) => e.target.querySelectorAll('input[name=weight]').forEach((i) => { if (!i.value) i.disabled = true; }));
+</script>
+<%- include('../partials/me-foot') %>

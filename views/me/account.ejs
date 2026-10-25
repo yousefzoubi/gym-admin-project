@@ -1,0 +1,49 @@
+<%- include('../partials/me-head', { title: 'حسابي' }) %>
+<section class="card profile">
+  <div class="avatar" aria-hidden="true"><%= m.name.trim()[0] %></div>
+  <div>
+    <h1><%= m.name %></h1>
+    <div class="muted small num"><%= m.phone %> · #<%= m.id %></div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="top"><h2 style="margin:0"><%= t('حسابي المالي') %></h2><b class="<%= m.balance > 0 ? 'balance-due' : 'balance-ok' %>"><%= m.balance > 0 ? t('عليك {amount}', { amount: money(m.balance) }) : t('مسدَّد ✅') %></b></div>
+  <h2 style="margin-top:14px"><%= t('الدفعات') %></h2>
+  <% if (!payments.length) { %><div class="empty"><%= t('لا توجد دفعات.') %></div><% } %>
+  <% for (const p of payments) { %><div class="row"><span class="num"><%= p.paid_at %> <span class="muted"><%= td(p.note) %></span></span><b><%= money(p.amount) %></b></div><% } %>
+  <% if (purchases.length) { %>
+    <h2 style="margin-top:14px"><%= t('مشترياتي') %></h2>
+    <% for (const p of purchases) { %><div class="row"><span><%= p.items %><div class="muted small num"><%= p.gym_day %></div></span><span><%= money(p.total) %> <span class="chip <%= p.method === 'account' ? 'expiring' : 'active' %>"><%= p.method === 'account' ? t('على الحساب') : t('نقداً') %></span></span></div><% } %>
+  <% } %>
+</section>
+
+<section class="card">
+  <h2><%= t('اشتراكاتي') %></h2>
+  <% for (const x of subs) { %><div class="row"><span><%= td(x.plan_name) %></span><span class="muted small num"><%= x.start_date %> <%= arrow %> <%= x.end_date %></span></div><% } %>
+</section>
+
+<section class="card">
+  <h2><%= t('زياراتي') %></h2>
+  <% if (!visits.length) { %><div class="empty"><%= t('لا توجد زيارات.') %></div><% } %>
+  <% for (const v of visits) { %><div class="row"><span class="num"><%= v.gym_day %> <span class="chip none"><%= CATS[v.category] %></span></span><span class="muted num"><%= v.checked_at.slice(11, 16) %><%= v.checked_out_at ? ` ${arrow} ${v.checked_out_at.slice(11, 16)} (${fmtDur(minutes(v.checked_at, v.checked_out_at))})` : '' %></span></div><% } %>
+</section>
+
+<form class="card" method="post" action="/me/prefs" id="prefs">
+  <h2><%= t('الإشعارات') %></h2>
+  <label class="check"><input type="checkbox" name="notify_hours" value="1" <%= m.notify_hours ? 'checked' : '' %>> <%= t('تذكير بالحصص وبالأيام ذات الدوام المختلف') %></label>
+  <label class="check"><input type="checkbox" name="notify_absence" value="1" <%= m.notify_absence ? 'checked' : '' %>> <%= t('"اشتقنا إليك" عند الغياب أسبوعاً') %></label>
+  <label class="check"><input type="checkbox" name="notify_offers" value="1" <%= m.notify_offers ? 'checked' : '' %>> <%= t('العروض والمنتجات الجديدة') %></label>
+  <p class="muted small"><%= t('تصلك دائماً تذكيرات انتهاء الاشتراك وإغلاق النادي.') %></p>
+  <button class="btn red sm"><%= t('حفظ') %></button>
+</form>
+
+<form class="card" method="post" action="/me/password" style="display:grid;gap:10px">
+  <h2><%= t('تغيير كلمة المرور') %></h2>
+  <input name="current" type="password" required placeholder="<%= t('كلمة المرور الحالية') %>" autocomplete="current-password" dir="ltr" aria-label="<%= t('كلمة المرور الحالية') %>">
+  <input name="password" type="password" required minlength="8" placeholder="<%= t('الجديدة (8 أحرف على الأقل)') %>" autocomplete="new-password" dir="ltr" aria-label="<%= t('كلمة المرور الجديدة') %>">
+  <button class="btn sm"><%= t('تغيير') %></button>
+</form>
+
+<form method="post" action="/logout"><button class="btn" style="width:100%"><i class="ti ti-logout"></i> <%= t('تسجيل الخروج') %></button></form>
+<%- include('../partials/me-foot') %>

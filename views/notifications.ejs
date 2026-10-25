@@ -1,0 +1,12 @@
+<%- include('partials/head') %>
+<h1><%= t('الإشعارات') %></h1>
+<section class="card">
+  <% if (!list.length) { %><div class="empty"><%= t('لا توجد إشعارات.') %></div><% } %>
+  <% for (const n of list) { %>
+    <a class="row notif <%= n.read_at ? '' : 'unread' %>" href="<%= n.link || '#' %>">
+      <div><b><%= showNote(n.title) %></b><% const body = showNote(n.body); if (body) { %><div class="muted small"><%= body %></div><% } %></div>
+      <span class="muted small num"><%= n.created_at.slice(5, 16) %></span>
+    </a>
+  <% } %>
+</section>
+<%- include('partials/foot') %>

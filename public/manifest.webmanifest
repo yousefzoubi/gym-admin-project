@@ -1,0 +1,16 @@
+{
+  "name": "IRON MAN Gym",
+  "short_name": "IRON MAN",
+  "description": "اشتراكك، دخولك، وتقدّمك بنادي IRON MAN",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0a0b",
+  "theme_color": "#0a0a0b",
+  "icons": [
+    { "src": "/img/logo.webp", "sizes": "1254x1254", "type": "image/webp", "purpose": "any" }
+  ]
+}

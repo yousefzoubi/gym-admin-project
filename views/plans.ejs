@@ -1,0 +1,28 @@
+<%- include('partials/head', { title: 'الباقات' }) %>
+<h1><%= t('الباقات والأسعار') %></h1>
+<p class="muted small" style="margin:0"><%= t('يؤثر تعديل السعر في الاشتراكات الجديدة فقط. ولا تظهر الباقة الموقوفة في قائمة الاشتراك.') %></p>
+
+<% for (const p of plans) { %>
+<form class="card form" method="post" action="/plans/<%= p.id %>" style="<%= p.active ? '' : 'opacity:.6' %>">
+  <label><%= t('الاسم') %><input name="name" value="<%= p.name %>" required maxlength="100"></label>
+  <label><%= t('النوع') %>
+    <select name="category"><% for (const [k, v] of Object.entries(CATS)) { %><option value="<%= k %>" <%= p.category === k ? 'selected' : '' %>><%= v %></option><% } %></select>
+  </label>
+  <label><%= t('المدة (بالأشهر)') %><input name="months" type="number" min="1" max="24" value="<%= p.months %>" required dir="ltr"></label>
+  <label><%= t('السعر (د.أ)') %><input name="price" type="number" min="0" step="0.01" value="<%= p.price %>" required dir="ltr"></label>
+  <label class="check"><input type="checkbox" name="active" value="1" <%= p.active ? 'checked' : '' %>> <%= t('فعّالة') %></label>
+  <div><button class="btn"><%= t('حفظ') %></button></div>
+</form>
+<% } %>
+
+<form class="card form" method="post" action="/plans">
+  <h2 class="full"><%= t('باقة جديدة') %></h2>
+  <label><%= t('الاسم') %><input name="name" required maxlength="100" placeholder="<%= t('حديد - 6 أشهر') %>"></label>
+  <label><%= t('النوع') %>
+    <select name="category"><% for (const [k, v] of Object.entries(CATS)) { %><option value="<%= k %>"><%= v %></option><% } %></select>
+  </label>
+  <label><%= t('المدة (بالأشهر)') %><input name="months" type="number" min="1" max="24" required dir="ltr"></label>
+  <label><%= t('السعر (د.أ)') %><input name="price" type="number" min="0" step="0.01" required dir="ltr"></label>
+  <div><button class="btn red"><i class="ti ti-plus"></i> <%= t('إضافة') %></button></div>
+</form>
+<%- include('partials/foot') %>

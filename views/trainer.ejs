@@ -1,0 +1,22 @@
+<%- include('partials/head', { title: 'متدرّبيّ' }) %>
+<h1><%= t('متدرّبيّ') %> <span class="muted small">(<%= rows.length %>)</span></h1>
+<p class="muted small" style="margin:0"><%= t('مرتّبون حسب الالتزام هذا الأسبوع، الأقل أولاً. 🔴 = لم يسجّل ولم يحضر منذ أسبوع.') %></p>
+
+<section class="card">
+  <% if (!rows.length) { %><div class="empty"><%= t('لا يوجد متدرّبون مرتبطون بك بعد. تربطهم الإدارة من ملف العضو.') %></div><% } %>
+  <% for (const r of rows) { const quiet = (!r.last_log || D.daysBetween(r.last_log, today) >= 7) && (!r.last_visit || D.daysBetween(r.last_visit, today) >= 7); %>
+    <div class="row">
+      <div>
+        <a href="/members/<%= r.id %>"><b><%= quiet ? '🔴 ' : '' %><%= r.name %></b></a>
+        <span class="muted small"><%= GOALS[r.goal_type] || '' %><%= r.template_name ? ` · 📋 ${td(r.template_name)}` : '' %></span>
+        <div style="margin-top:4px"><%- include('partials/chips', { s: r.s }) %></div>
+        <div class="muted small"><%= t('آخر زيارة:') %> <span class="num"><%= r.last_visit || '—' %></span> · <%= t('آخر تسجيل:') %> <span class="num"><%= r.last_log || '—' %></span></div>
+      </div>
+      <div style="text-align:center">
+        <div class="num" style="font-size:22px;font-weight:700;color:<%= r.adh.score >= 70 ? 'var(--green)' : r.adh.score >= 40 ? 'var(--amber)' : '#ff6b70' %>"><%= r.adh.score %>%</div>
+        <a class="btn sm <%= r.template_name ? '' : 'red' %>" href="/members/<%= r.id %>/program"><%= r.template_name ? t('الجدول') : t('اختيار جدول') %></a>
+      </div>
+    </div>
+  <% } %>
+</section>
+<%- include('partials/foot') %>

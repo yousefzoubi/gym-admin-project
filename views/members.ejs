@@ -1,0 +1,38 @@
+<%- include('partials/head', { title: 'الأعضاء' }) %>
+<div class="top">
+  <h1><%= t('الأعضاء') %> <span class="muted small">(<%= rows.length %>)</span></h1>
+  <a class="btn red" href="/members/new"><i class="ti ti-user-plus"></i> <%= t('عضو جديد') %></a>
+</div>
+
+<form class="top" method="get">
+  <div class="search">
+    <input name="q" value="<%= q %>" placeholder="<%= t('الاسم، الهاتف، الرقم الوطني، أو رقم العضو') %>" aria-label="<%= t('بحث') %>">
+    <select name="status" aria-label="<%= t('الحالة') %>" style="max-width:170px">
+      <option value=""><%= t('جميع الحالات') %></option>
+      <% for (const [k, v] of Object.entries(STATUS)) { %><option value="<%= k %>" <%= filter === k ? 'selected' : '' %>><%= v %></option><% } %>
+    </select>
+    <button class="btn" aria-label="<%= t('بحث') %>"><i class="ti ti-search"></i></button>
+  </div>
+</form>
+
+<div class="card table-wrap">
+  <% if (!rows.length) { %><div class="empty"><%= t('لا يوجد أعضاء مطابقون للبحث.') %></div><% } else { %>
+  <table>
+    <thead><tr><th>#</th><th><%= t('الاسم') %></th><th class="hide-sm"><%= t('الهاتف') %></th><th class="hide-sm"><%= t('الرقم الوطني') %></th><th><%= t('الاشتراك') %></th><th class="hide-sm"><%= t('المدرّب') %></th><th><%= t('المتبقي') %></th></tr></thead>
+    <tbody>
+    <% for (const m of rows) { %>
+      <tr onclick="location='/members/<%= m.id %>'" style="cursor:pointer">
+        <td class="muted num"><%= m.id %></td>
+        <td><a href="/members/<%= m.id %>"><b><%= m.name %></b></a> <% if (m.activated) { %><i class="ti ti-device-mobile-check" style="color:var(--green)" title="<%= t('فعّل التطبيق') %>"></i><% } %></td>
+        <td class="hide-sm num"><%= m.phone %></td>
+        <td class="hide-sm num muted"><%= maskId(m.national_id) %></td>
+        <td><%- include('partials/chips', { s: m.s }) %></td>
+        <td class="hide-sm muted"><%= m.trainer_name || '—' %></td>
+        <td class="<%= m.balance > 0 ? 'balance-due' : 'muted' %>"><%= m.balance > 0 ? money(m.balance) : '—' %></td>
+      </tr>
+    <% } %>
+    </tbody>
+  </table>
+  <% } %>
+</div>
+<%- include('partials/foot') %>

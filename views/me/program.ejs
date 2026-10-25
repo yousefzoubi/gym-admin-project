@@ -1,0 +1,13 @@
+<%- include('../partials/me-head', { title: 'جدولي' }) %>
+<div class="top">
+  <h1><%= t('جدولي') %></h1>
+  <% if (m.template_name) { %><span class="chip none"><%= td(m.template_name) %></span><% } %>
+</div>
+<% if (!days.length) { %>
+  <section class="card empty"><%= t('لم يختر لك المدرّب جدولاً بعد. تحدّث معه أو مع الاستقبال 💬') %></section>
+<% } else { %>
+  <p class="muted small" style="margin:0"><%= t('يمكنك التعديل على جدولك، ويصل إشعار إلى المدرّب عند أي تعديل.') %></p>
+  <a class="btn red" href="/me/workout"><i class="ti ti-barbell"></i> <%= t('ابدأ تمرين اليوم') %></a>
+<% } %>
+<%- include('../partials/program-days') %>
+<%- include('../partials/me-foot') %>

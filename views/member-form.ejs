@@ -1,0 +1,50 @@
+<%- include('partials/head', { title: m.id ? 'تعديل عضو' : 'عضو جديد' }) %>
+<div class="top">
+  <h1><%= m.id ? t('تعديل: {name}', { name: m.name }) : t('عضو جديد') %></h1>
+  <a class="btn" href="<%= m.id ? `/members/${m.id}` : '/members' %>"><%= t('رجوع') %></a>
+</div>
+<% if (error) { %><div class="flash error" role="alert"><%= tt(error) %> <% if (typeof dup !== 'undefined' && dup) { %><a class="btn sm" href="/members/<%= dup %>"><%= t('افتح ملفه') %></a><% } %></div><% } %>
+
+<form class="card form" method="post" action="<%= m.id ? `/members/${m.id}` : '/members' %>">
+  <label><%= t('الاسم الكامل') %><input name="name" value="<%= m.name || '' %>" required maxlength="100" autofocus></label>
+  <label><%= t('رقم الهاتف') %><input name="phone" value="<%= m.phone || '' %>" required dir="ltr" inputmode="tel" placeholder="07XXXXXXXX"></label>
+  <label><%= t('الرقم الوطني') %><input name="national_id" value="<%= m.national_id || '' %>" required dir="ltr" inputmode="numeric" maxlength="10"></label>
+  <label><%= t('تاريخ الميلاد') %><input name="birth_date" type="date" value="<%= m.birth_date || '' %>" required dir="ltr"></label>
+  <label><%= t('المدرّب') %>
+    <select name="trainer_id">
+      <option value=""><%= t('بلا مدرّب') %></option>
+      <% for (const tr of trainers) { %><option value="<%= tr.id %>" <%= Number(m.trainer_id) === tr.id ? 'selected' : '' %>><%= tr.name %></option><% } %>
+    </select>
+  </label>
+  <label><%= t('رقم البصمة على الجهاز (اختياري)') %><input name="fingerprint_id" type="number" min="1" value="<%= m.fingerprint_id || '' %>" dir="ltr"></label>
+  <label class="full"><%= t('ملاحظات (إصابات، أمراض...)') %><textarea name="notes" maxlength="1000"><%= m.notes || '' %></textarea></label>
+
+  <% if (!m.id && plans.length) { %>
+    <% for (const [cat, label] of Object.entries(CATS)) { const ps = plans.filter((p) => p.category === cat); if (!ps.length) continue; %>
+      <label><%= t('اشتراك {cat}', { cat: label }) %>
+        <select name="plan_<%= cat %>" data-paid="paid_<%= cat %>">
+          <option value=""><%= t('بلا اشتراك') %></option>
+          <% for (const p of ps) { %><option value="<%= p.id %>" data-price="<%= p.price %>"><%= td(p.name) %> — <%= money(p.price) %></option><% } %>
+        </select>
+      </label>
+      <label><%= t('المدفوع الآن ({cat})', { cat: label }) %><input name="paid_<%= cat %>" id="paid_<%= cat %>" type="number" min="0" step="0.01" dir="ltr" placeholder="0"></label>
+    <% } %>
+  <% } %>
+
+  <% if (!m.id && typeof templates !== 'undefined') { %>
+    <label class="full"><%= t('جدول التمارين (يمكن للمدرّب تغييره وتعديله لاحقاً)') %>
+      <select name="template_id">
+        <option value=""><%= t('بلا جدول الآن') %></option>
+        <% for (const tp of templates) { %><option value="<%= tp.id %>" <%= Number(m.template_id) === tp.id ? 'selected' : '' %>><%= td(tp.name) %></option><% } %>
+      </select>
+    </label>
+  <% } %>
+  <p class="full muted small" style="margin:0"><i class="ti ti-shield-lock"></i> <%= t('لا يتكرر الرقم الوطني ولا رقم الهاتف ولا رقم البصمة، فلا يمكن تسجيل الشخص مرتين. ويطّلع على الرقم الوطني المدير والاستقبال فقط.') %></p>
+  <div class="full"><button class="btn red"><i class="ti ti-device-floppy"></i> <%= t('حفظ') %></button></div>
+</form>
+<script>
+  document.querySelectorAll('select[data-paid]').forEach((s) => s.addEventListener('change', () => {
+    document.getElementById(s.dataset.paid).value = s.selectedOptions[0].dataset.price || '';
+  }));
+</script>
+<%- include('partials/foot') %>

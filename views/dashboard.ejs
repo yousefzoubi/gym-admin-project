@@ -1,0 +1,97 @@
+<%- include('partials/head', { title: 'الرئيسية' }) %>
+<% const dayNames = ['أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت']; %>
+
+<section class="hero">
+  <div class="top" style="width:100%">
+    <div>
+      <h1><%= t('أهلاً، {name}', { name: user.name }) %></h1>
+      <div class="muted"><%= longDate() %></div>
+      <div class="chips" style="margin-top:8px">
+        <% for (const [c, h] of Object.entries(hours)) { %><span class="chip <%= h.open ? 'active' : 'none' %>"><%= CATS[c] %>: <%= tt(h.text) %></span><% } %>
+      </div>
+    </div>
+    <a class="btn red" href="/checkin"><i class="ti ti-fingerprint"></i> <%= t('البصمة') %></a>
+  </div>
+</section>
+
+<section class="grid stats">
+  <div class="card stat accent">
+    <div class="label"><i class="ti ti-users"></i> <%= t('الأعضاء الفعّالون') %></div>
+    <div class="value num"><%= active %></div>
+    <div class="hint"><%= t('من أصل {n} عضواً', { n: totalMembers }) %></div>
+  </div>
+  <div class="card stat">
+    <div class="label"><i class="ti ti-door-enter"></i> <%= t('حضور اليوم') %></div>
+    <div class="value num"><%= today.count %> <span class="muted small">· <%= t('في الداخل الآن {n}', { n: insideNow }) %></span></div>
+    <div class="hint"><%= CATS.iron %> <%= today.iron %> · <%= CATS.kickboxing %> <%= today.kickboxing %><%= avgMin ? ` · ${t('متوسط الجلسة {d}', { d: fmtDur(avgMin) })}` : '' %></div>
+  </div>
+  <% if (revenue !== null) { %>
+  <div class="card stat">
+    <div class="label"><i class="ti ti-cash"></i> <%= t('اشتراكات هذا الشهر') %></div>
+    <div class="value"><%= money(revenue) %></div>
+    <div class="hint"><%= t('ديون على الأعضاء: {amount}', { amount: money(owed) }) %></div>
+  </div>
+  <div class="card stat">
+    <div class="label"><i class="ti ti-shopping-cart"></i> <%= t('المتجر هذا الشهر') %></div>
+    <div class="value"><%= money(shopProfit.s) %></div>
+    <div class="hint"><%= t('الربح: {amount}', { amount: money(shopProfit.p) }) %></div>
+  </div>
+  <% } %>
+  <div class="card stat">
+    <div class="label"><i class="ti ti-alert-triangle"></i> <%= t('تنتهي هذا الأسبوع') %></div>
+    <div class="value num" style="color:var(--amber)"><%= expiringCount %></div>
+    <div class="hint"><%= t('بحاجة إلى تجديد') %></div>
+  </div>
+</section>
+
+<section class="grid two">
+  <div class="card">
+    <h2><%= t('الحضور في آخر 7 أيام') %></h2>
+    <div class="bars">
+      <% week.forEach((w, i) => { const d = new Date(w.day + 'T12:00'); %>
+        <div class="<%= i === 6 ? 'today' : '' %>" title="<%= CATS.iron %> <%= w.iron %> · <%= CATS.kickboxing %> <%= w.kickboxing %>">
+          <b class="num"><%= w.count %></b>
+          <span class="b" style="height: calc((100% - 44px) * <%= Math.round(w.count / weekMax * 100) / 100 %>)"></span>
+          <%= i === 6 ? t('اليوم') : t(dayNames[d.getDay()]) %>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><%= t('اشتراكات بحاجة إلى تجديد') %></h2>
+    <% if (!alerts.length) { %><div class="empty"><%= t('جميع الاشتراكات سارية 👌') %></div><% } %>
+    <% for (const a of alerts.slice(0, 8)) { %>
+      <div class="row">
+        <div>
+          <a href="/members/<%= a.id %>"><b><%= a.name %></b></a>
+          <div class="muted small"><%= CATS[a.cat] %> · <span class="num"><%= a.phone %></span></div>
+        </div>
+        <span class="chip <%= a.status %>"><%= a.days < 0 ? t('انتهى منذ {n} يوم', { n: -a.days }) : a.days === 0 ? t('ينتهي اليوم') : t('متبقٍّ {n} يوم', { n: a.days }) %></span>
+      </div>
+    <% } %>
+    <% if (alerts.length > 8) { %><a class="btn sm" style="margin-top:10px" href="/members?status=expiring"><%= t('عرض الكل ({n})', { n: alerts.length }) %></a><% } %>
+  </div>
+</section>
+
+<section class="grid two">
+  <a class="card" href="<%= user.role === 'admin' ? '/clean' : '#' %>">
+    <h2><i class="ti ti-spray"></i> <%= t('النظافة اليوم') %></h2>
+    <div class="progress big-progress <%= cleaning.done === cleaning.total ? '' : 'expiring' %>"><span style="width:<%= cleaning.total ? Math.round(cleaning.done / cleaning.total * 100) : 0 %>%"></span></div>
+    <div class="muted small" style="margin-top:6px"><%= t('{done} من {total} مهام', { done: cleaning.done, total: cleaning.total }) %><%= cleaning.done === cleaning.total ? ' ✨' : '' %></div>
+  </a>
+  <div class="card">
+    <h2><i class="ti ti-id-badge-2"></i> <%= t('في الدوام الآن') %></h2>
+    <% if (!onShift.length) { %><div class="empty"><%= t('لم يسجّل أي موظف بصمة دوام.') %></div><% } %>
+    <% for (const s of onShift) { %><div class="row"><span><%= s.name %></span><b class="num small" data-since="<%= s.clock_in %>"></b></div><% } %>
+  </div>
+</section>
+
+<section class="card">
+  <h2><%= t('آخر الداخلين اليوم') %></h2>
+  <% if (!recent.length) { %><div class="empty"><%= t('لم يسجّل أحد دخوله اليوم بعد.') %></div><% } %>
+  <% for (const r of recent) { %>
+    <div class="row"><span><a href="/members/<%= r.member_id %>"><%= r.name %></a> <span class="chip none"><%= CATS[r.category] %></span></span><span class="muted num small"><%= r.checked_at.slice(11, 16) %> <%= arrow %> <% if (r.checked_out_at) { %><%= r.checked_out_at.slice(11, 16) %> · <%= fmtDur(minutes(r.checked_at, r.checked_out_at)) %><% } else { %><b data-since="<%= r.checked_at %>"><%= t('في الداخل') %></b><% } %></span></div>
+  <% } %>
+</section>
+<%- include('partials/foot') %>

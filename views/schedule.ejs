@@ -1,0 +1,72 @@
+<%- include('partials/head', { title: 'الدوام والإعلانات' }) %>
+<% const WD = [6, 0, 1, 2, 3, 4, 5], NAMES = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت']; %>
+<div class="top">
+  <h1><%= t('الدوام والإعلانات') %></h1>
+  <div class="chips"><% for (const [c, h] of Object.entries(labels)) { %><span class="chip <%= h.open ? 'active' : 'none' %>"><%= CATS[c] %>: <%= tt(h.text) %></span><% } %></div>
+</div>
+
+<form class="card" method="post" action="/schedule">
+  <h2><%= t('الدوام الأسبوعي') %></h2>
+  <p class="muted small" style="margin-top:-6px"><%= t('الحقل الفارغ يعني أن القسم مغلق. إذا كان وقت الإغلاق أصغر من وقت الفتح فهذا يعني أنه يغلق بعد منتصف الليل (مثلاً 15:30 ← 06:00). ويبدأ اليوم في النظام الساعة 6 صباحاً.') %></p>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th><%= t('اليوم') %></th><% for (const c of Object.keys(CATS)) { %><th><%= t('{cat}: فتح', { cat: CATS[c] }) %></th><th><%= t('إغلاق') %></th><% } %></tr></thead>
+    <tbody>
+    <% for (const wd of WD) { %>
+      <tr>
+        <td><b><%= t(NAMES[wd]) %></b></td>
+        <% for (const c of Object.keys(CATS)) { const h = hours.find((x) => x.category === c && x.weekday === wd) || {}; %>
+          <td><input type="time" name="<%= c %>_<%= wd %>_open" value="<%= h.open || '' %>" dir="ltr" aria-label="<%= CATS[c] %> <%= t(NAMES[wd]) %> <%= t('فتح') %>"></td>
+          <td><input type="time" name="<%= c %>_<%= wd %>_close" value="<%= h.close || '' %>" dir="ltr" aria-label="<%= CATS[c] %> <%= t(NAMES[wd]) %> <%= t('إغلاق') %>"></td>
+        <% } %>
+      </tr>
+    <% } %>
+    </tbody>
+  </table>
+  </div>
+  <button class="btn red" style="margin-top:12px"><%= t('حفظ الدوام') %></button>
+</form>
+
+<section class="grid two">
+  <form class="card form" method="post" action="/closures">
+    <h2 class="full"><i class="ti ti-calendar-off"></i> <%= t('عطلة أو تغيير دوام ليوم معيّن') %></h2>
+    <label><%= t('التاريخ') %><input type="date" name="day" min="<%= today %>" required dir="ltr"></label>
+    <label><%= t('القسم') %>
+      <select name="category"><option value=""><%= t('النادي كاملاً') %></option><% for (const [k, v] of Object.entries(CATS)) { %><option value="<%= k %>"><%= v %></option><% } %></select>
+    </label>
+    <label><%= t('النوع') %>
+      <select name="kind" id="kind"><option value="closed"><%= t('مغلق طوال اليوم') %></option><option value="hours"><%= t('دوام مختلف') %></option></select>
+    </label>
+    <label><%= t('فتح') %><input type="time" name="open" dir="ltr"></label>
+    <label><%= t('إغلاق') %><input type="time" name="close" dir="ltr"></label>
+    <label class="full"><%= t('السبب (يصل إلى المشتركين)') %><input name="note" maxlength="200" placeholder="<%= t('صيانة / عيد / إلغاء حصة') %>"></label>
+    <p class="full muted small" style="margin:0"><i class="ti ti-bell"></i> <%= t('يُرسل إشعار ورسالة SMS فوراً إلى المشتركين الفعّالين في هذا القسم، وتذكير آخر مساء اليوم السابق.') %></p>
+    <div class="full"><button class="btn red"><%= t('حفظ وإرسال') %></button></div>
+  </form>
+
+  <div class="card">
+    <h2><%= t('الأيام القادمة المختلفة') %></h2>
+    <% if (!closures.length) { %><div class="empty"><%= t('لا توجد تغييرات قادمة.') %></div><% } %>
+    <% for (const c of closures) { %>
+      <div class="row">
+        <div>
+          <b class="num"><%= c.day %></b> · <%= c.category ? CATS[c.category] : t('النادي كاملاً') %>
+          <div class="muted small"><%= c.closed ? t('مغلق') : `${c.open} ${arrow} ${c.close}` %><%= c.note ? ` · ${c.note}` : '' %></div>
+        </div>
+        <form method="post" action="/closures/<%= c.id %>/delete" onsubmit="<%= ask('هل تريد الحذف؟') %>"><button class="btn ghost-danger" aria-label="<%= t('حذف') %>"><i class="ti ti-trash"></i></button></form>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<form class="card form" method="post" action="/broadcast">
+  <h2 class="full"><i class="ti ti-speakerphone"></i> <%= t('إعلان للمشتركين') %></h2>
+  <label><%= t('العنوان') %><input name="title" required maxlength="120" placeholder="<%= t('بطولة كيك بوكسينج الشهر القادم 🥊') %>"></label>
+  <label><%= t('المستلمون') %>
+    <select name="category"><option value=""><%= t('جميع المشتركين الفعّالين') %></option><% for (const [k, v] of Object.entries(CATS)) { %><option value="<%= k %>"><%= t('مشتركو {cat}', { cat: v }) %></option><% } %></select>
+  </label>
+  <label class="full"><%= t('التفاصيل') %><textarea name="body" maxlength="500" style="min-height:80px"></textarea></label>
+  <label class="check full"><input type="checkbox" name="offer" value="1"> <%= t('هذا عرض أو إعلان تجاري (يصل فقط إلى من لم يوقف العروض)') %></label>
+  <div class="full"><button class="btn red"><i class="ti ti-send"></i> <%= t('إرسال') %></button></div>
+</form>
+<%- include('partials/foot') %>

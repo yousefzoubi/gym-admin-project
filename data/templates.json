@@ -1,0 +1,1760 @@
+[
+ {
+  "name": "فل بادي - 5 أيام",
+  "note": "يختلف عدد الجولات بحسب شدة التمرين والأوزان المستخدمة.",
+  "days": [
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع علوي Incline press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب رو ضيق Row close grip",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "كتف أمامي Front Delt",
+      "exercise": "دفع Shoulder Press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "باي بنش مائل Incline bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "خلف الرأس Overhead Extension",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "فتح Hip Abduction",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "ضم Hip Adduction",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "صدر Chest",
+      "exercise": "فلاي مستقيم Flat chest fly",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب واسعLat Pulldown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "كتف جانبي Side delt",
+      "exercise": "رفرفة Lateral raises",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة أمامي Leg Extensions",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة خلفي Leg Curls",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "اليوم التالي راحة",
+    "exercises": [
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع سفلي Decline press",
+      "sets": 4,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "ترابيس Trapezius shrugs",
+      "sets": 4,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "كتف خلفي Rear Delt",
+      "exercise": "كتف خلفي (اختر تمريناً)",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "باي واقف Stand bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "مسطرة Tricep Pushdown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "كيجل hip thrusts",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "بطات calves machine",
+      "sets": 4,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "صدر chest",
+      "exercise": "دفع علوي Incline press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "كتف جانبي side delt",
+      "exercise": "كتف جانبي (اختر تمريناً)",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "همر علوي ضيق Hummer lat pulldown close grip",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "همرHummer Curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "فردي زاوية 45 Singe tricep extension",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "قطنية Lower back",
+      "exercise": "قطنية (اختر تمريناً)",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "دفش Leg Press",
+      "sets": 4,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "اليوم التالي راحة",
+    "exercises": [
+     {
+      "muscle": "صدر chest",
+      "exercise": "دفع مستقيم Flat press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "كتف خلفي Rear Delt",
+      "exercise": "كتف خلفي (اختر تمريناً)",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "همر سفلي Hummer seated row",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "باي واقف Stand bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "تراي عالحبل Tricep robe extension",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "دفش Leg Press",
+      "sets": 4,
+      "reps": "8-12"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "فل بادي - 4 أيام",
+  "note": "يختلف عدد الجولات بحسب شدة التمرين والأوزان المستخدمة.",
+  "days": [
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع مستقيم Chest press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "فلاي مستقيم Flat chest fly",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب رو ضيق Close grip row",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب رو واسع",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "دفع أمامي Shoulder press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "رفرفة جانبي Lateral raises",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي Biceps -Triceps",
+      "exercise": "باي بنش مائل أمام الجسم Incline bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي Biceps -Triceps",
+      "exercise": "خلف الرأس Overhead Extension",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "اليوم التالي راحة",
+    "exercises": [
+     {
+      "muscle": "صدر Chest",
+      "exercise": "همر علويIncline press hummer",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "فلاي علوي Incline chest fly",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب واسعLat Pulldown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "ترابيس Trapezius shrugs",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف",
+      "exercise": "كتف خلفي Rear Delt",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي",
+      "exercise": "باي كيبل خلف الجسم Cable bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي",
+      "exercise": "مسطرة Tricep Pushdown",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "صدر Chest",
+      "exercise": "سميث علوي Incline smith press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع سفلي Decline press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب علوي ضيق lat pulldown close grip",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "أسفل الظهر Back extension",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف",
+      "exercise": "رفرقة جانبي كيبل Cable lateral raises",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف",
+      "exercise": "خلفي كيبل Rear delt cable fly",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي",
+      "exercise": "باي همر Hummer curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي",
+      "exercise": "فردي زاوية 45 Singe tricep extension",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "LEGS",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة أمامي Leg Extension",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "سكوات Squat",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "دفش Leg press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة خلفي Leg curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة خلفي single curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "فتح Hip Abduction",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "ضم\\كيجل Hip Adduction \\Hip thrusts",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "بطات calves",
+      "sets": 4,
+      "reps": "8-12"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "PPL - 3 أيام",
+  "note": "يختلف عدد الجولات بحسب شدة التمرين والأوزان المستخدمة.",
+  "days": [
+   {
+    "title": "PUSH",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع مستقيم Chest press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع علوي Incline press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع سفلي Decline press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "فلاي مستقيم Flat chest fly",
+      "sets": 2,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shlouders",
+      "exercise": "دفع أمامي Shoulder Press",
+      "sets": 4,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shlouders",
+      "exercise": "جانبي Lateral raises",
+      "sets": 4,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "مسطرة Tricep Pushdown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "خلف الرأس Overhead",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "فردي زاوية single cable extention 45",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "PULL",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب رو ضيق Row close grip",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب علوي واسع Lat Pulldown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "همر علوي ضيق Hummer lat pulldown close grip",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "ترابيس Trapezius shrugs",
+      "sets": 2,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "ظهر سفلي Back extention",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "كتف خلفي Rear Delt",
+      "exercise": "كتف خلفي (اختر تمريناً)",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "باي واقف Stand bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "باي بنش مائل Incline bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "همر Hummer Curls",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة أمامي Leg Extension",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "سكوات Squat",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "دفش Leg press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة خلفي1 Leg curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة خلفي 2 single curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "فتح Hip Abduction",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "ضم\\كيجل Hip Adduction \\Hip thrusts",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "بطات calves",
+      "sets": 4,
+      "reps": "8-12"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "PPL - 5 أيام",
+  "note": "يختلف عدد الجولات بحسب شدة التمرين والأوزان المستخدمة.",
+  "days": [
+   {
+    "title": "PUSH 1",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع مستقيم حر FlatChest press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع سفلي Decline press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "فلاي مستقيم Flat chest fly",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "كتف أمامي Front delt",
+      "exercise": "دفع أمامي Shoulder Press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "فردي زاوية single cable extention 45",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "خلف الرأس Overhead extention",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "PULL 1",
+    "note": "اليوم التالي راحة",
+    "exercises": [
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب رو ضيق Row close grip",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب علوي واسع Lat Pulldown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "ترابيس Trapezius shrugs",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف",
+      "exercise": "رفرفةجانبي Lateral raises",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف",
+      "exercise": "كتف خلفي Rear Delt",
+      "sets": 4,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "باي واقف Stand bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "باي همر Hummer Curls",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "PUSH 2",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع علوي Incline press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "همر علوي Incline hummer press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "مسطرة Tricep pushdown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "خلف الرأس Overhead extention",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر",
+      "exercise": "ضغطPushUp",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "PULL 2",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "ظهر Back",
+      "exercise": "همر علوي ضيق Hummer lat pulldown close grip",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب علوي واسع Lat Pulldown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "ظهر سفلي Back extention",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف",
+      "exercise": "رفرفة جانبي Lateral raises",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف",
+      "exercise": "كتف خلفي Rear Delt",
+      "sets": 4,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "باي بنش مائل Incline bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "باي كيبل خلف الجسم Cable curls",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "LEGS",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة أمامي Leg Extension",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "سكوات Squat",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "دفش Leg press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة خلفي1 Leg curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة خلفي 2 single curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "فتح Hip Abduction",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "ضم\\كيجل Hip Adduction \\Hip thrusts",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "بطات calves",
+      "sets": 4,
+      "reps": "8-12"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "PPL - 6 أيام",
+  "note": "يختلف عدد الجولات بحسب شدة التمرين والأوزان المستخدمة.",
+  "days": [
+   {
+    "title": "PUSH 1",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع مستقيم حر Chest press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع سفلي Decline press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "فلاي مستقيم Flat chest fly",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "كتف أمامي",
+      "exercise": "دفع Shoulder Press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "فردي زاوية 45 Singe tricep extension",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "خلف الرأس Overhead Extension",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "PULL 1",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب رو ضيق Row close grip",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب علوي واسعLat Pulldown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "ترابيس Trapezius shrugs",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "رفرفة جانبي Lateral raises",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "كتف خلفي Rear Delt",
+      "sets": 4,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "باي واقف Stand bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "همرHummer Curls",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "LEGS 1",
+    "note": "اليوم التالي راحة",
+    "exercises": [
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة أمامي Leg Extension",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "سكوات Squat",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "دفش Leg press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "هيب او كيجل Hip thrusts",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "تبياليس Tibialis",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "PUSH 2",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع علوي Incline press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "همر علوي Incline hummer press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "مسطرة Tricep Pushdown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "خلف الرأس Overhead",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "ضغط",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "PULL 2",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "ظهر Back",
+      "exercise": "همر علوي ضيق Hummer lat pulldown close grip",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب علوي واسع Lat Pulldown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "ظهر سفلي Back extention",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "رفرفة جانبي Lateral raises",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "كتف خلفي Rear Delt",
+      "sets": 4,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "باي بنش مائل Incline bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "باي كيبل خلف الجسم Cable curls",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "LEGS 2",
+    "note": "اليوم التالي راحة",
+    "exercises": [
+     {
+      "muscle": "رجلين",
+      "exercise": "مرجحة خلفي1 Leg curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين",
+      "exercise": "مرجحة خلفي2 single curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين",
+      "exercise": "ضم (داخليات)Hip Adduction",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين",
+      "exercise": "بطات واقف Claves standed",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين",
+      "exercise": "بطات جالس Calves seated",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "عضلتين باليوم - 4 أيام",
+  "note": "يختلف عدد الجولات بحسب شدة التمرين والأوزان المستخدمة.",
+  "days": [
+   {
+    "title": "صدر + تراي",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع علوي Incline press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "فلاي علوي Incline fly",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع مستقيم FlatChest press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع سفلي Decline press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "فلاي مستقيم Flat chest fly",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "خلف الرأس Overhead extention",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "مسطرة Tricep Pushdown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "تراي Triceps",
+      "exercise": "فردي زاوية 45 Singe tricep extension",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "ظهر + باي",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب رو ضيق Row close grip",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب علوي واسع Lat Pulldown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب علوي فردي Single PullDown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب رو واسع Row wide grip",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "ترابيس Trapezius shrugs",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "ظهر سفلي Back extention",
+      "sets": 4,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "باي واقف Stand bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "باي بنش مائل Incline bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي Biceps",
+      "exercise": "باي همر Hummer Curls",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "أكتاف",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "دفع أمامي Shoulder Press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "رفرفةجانبي Lateral raises",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "كتف خلفي Rear Delt",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "كتف خلفي(كيبل) Rear Delt cable fly",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "رفرفة جانبي(كيبل) Cable lateral raises",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة أمامي Leg Extension",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "سكوات Squat",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "دفش Leg press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة خلفي1 Leg curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة خلفي 2 single curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "فتح Hip Abduction",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "ضم\\كيجل Hip Adduction \\Hip thrusts",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "بطات calves",
+      "sets": 4,
+      "reps": "8-12"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "عضلة كل يوم - 5 أيام",
+  "note": "يختلف عدد الجولات بحسب شدة التمرين والأوزان المستخدمة.",
+  "days": [
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع علوي Incline press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "فلاي علوي Incline fly",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع مستقيم Flat Chest press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع سفلي Decline press",
+      "sets": 2,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "فلاي مستقيم Flat chest fly",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب رو ضيق Row close grip",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب علوي واسع Lat Pulldown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب رو واسع Row wide grip",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "ترابيس Trapezius shrugs",
+      "sets": 2,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "ظهر سفلي Back extention",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "دفع أمامي Shoulder Press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "رفرفةجانبي Lateral raises",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "كتف خلفي Rear Delt",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "كتف خلفي(كيبل) Rear Delt cable fly",
+      "sets": 2,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "رفرفة جانبي(كيبل) Cable lateral raises",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "باي وتراي Biceps and Triceps",
+      "exercise": "باي واقف Stand bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي Biceps and Triceps",
+      "exercise": "باي بنش مائل Incline bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي Biceps and Triceps",
+      "exercise": "باي همر Hummer Curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي Biceps and Triceps",
+      "exercise": "خلف الرأس Overhead extention",
+      "sets": 2,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي Biceps and Triceps",
+      "exercise": "فردي زاوية single cable extention 45",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة أمامي Leg Extension",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "سكوات Squat",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "دفش Leg press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة خلفي1 Leg curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة خلفي 2 single curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "فتح Hip Abduction",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "ضم\\كيجل Hip Adduction \\Hip thrusts",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "بطات calves",
+      "sets": 4,
+      "reps": "8-12"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name": "أرنولد سبليت",
+  "note": "يختلف عدد الجولات بحسب شدة التمرين والأوزان المستخدمة.",
+  "days": [
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع مستقيم Flat Chest press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع علوي Incline press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع سفلي Decline press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب رو ضيق Row close grip",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب رو ضيق Row wide grip",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "ترابيس Trapezius shrugs",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "اليوم التالي راحة",
+    "exercises": [
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "دفع أمامي Shoulder Press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "رفرفةجانبي Lateral raises",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "كتف خلفي Rear Delt",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي Biceps and Triceps",
+      "exercise": "باي واقف Stand bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي Biceps and Triceps",
+      "exercise": "تراي مسطرة Tricep Pushdown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي Biceps and Triceps",
+      "exercise": "باي همر Hummer Curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي Biceps and Triceps",
+      "exercise": "تراي خلف الرأس Overhead extention",
+      "sets": 4,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "صدر Chest",
+      "exercise": "دفع علوي Incline press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "فلاي مستقيم Flat chest fly",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "صدر Chest",
+      "exercise": "كيبل سفلي Decline cable fly",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "همر علوي ضيق Lat pulldown hummer (close)",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "سحب علوي واسع Lat Pulldown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "ظهر Back",
+      "exercise": "ظهر سفلي/قطنية Back extention",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "باي وتراي Biceps and Triceps",
+      "exercise": "باي كيبل خلف الجسم Cable curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي Biceps and Triceps",
+      "exercise": "تراي مسطرة Tricep Pushdown",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي Biceps and Triceps",
+      "exercise": "باي بنش مائل Incline bicep curl",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "باي وتراي Biceps and Triceps",
+      "exercise": "تراي خلف الرأس Overhead extention",
+      "sets": 4,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "رفرفة جانبي(كيبل) Cable lateral raises",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "أكتاف Shoulders",
+      "exercise": "كتف خلفي(كيبل) Rear Delt cable fly",
+      "sets": 3,
+      "reps": "8-12"
+     }
+    ]
+   },
+   {
+    "title": "",
+    "note": "",
+    "exercises": [
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة أمامي Leg Extension",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "سكوات Squat",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "دفش Leg press",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة خلفي1 Leg curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "مرجحة خلفي 2 single curls",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "فتح Hip Abduction",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "ضم\\كيجل Hip Adduction \\Hip thrusts",
+      "sets": 3,
+      "reps": "8-12"
+     },
+     {
+      "muscle": "رجلين Legs",
+      "exercise": "بطات calves",
+      "sets": 4,
+      "reps": "8-12"
+     }
+    ]
+   }
+  ]
+ }
+]

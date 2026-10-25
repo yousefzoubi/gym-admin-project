@@ -1,0 +1,101 @@
+<%- include('../partials/me-head', { title: 'الرئيسية' }) %>
+<% const first = m.name.split(' ')[0]; %>
+
+<section class="hero" style="min-height:120px">
+  <div>
+    <h1><%= t('أهلاً {name} 💪', { name: first }) %></h1>
+    <div class="chips" style="margin-top:8px">
+      <% for (const h of hours) { %><span class="chip <%= h.open ? 'active' : 'none' %>"><%= CATS[h.c] %>: <%= tt(h.text) %></span><% } %>
+    </div>
+  </div>
+</section>
+
+<% if (visit) { %>
+  <a class="card timer-card" href="/me/workout">
+    <div class="muted small">🏋️ <%= t('أنت في النادي الآن · {cat} · منذ {t}', { cat: CATS[visit.category], t: visit.checked_at.slice(11, 16) }) %></div>
+    <div class="timer num" data-since="<%= visit.checked_at %>">00:00:00</div>
+    <div class="btn red sm"><%= setsToday ? t('سجّل جولاتك ({n} تمارين حتى الآن)', { n: setsToday }) : t('سجّل جولاتك') %></div>
+  </a>
+<% } else { %>
+  <a class="card qr-cta" href="/me/workout">
+    <i class="ti ti-fingerprint" aria-hidden="true"></i>
+    <div><b><%= t('ضع بصمتك على الجهاز عند وصولك') %></b><div class="muted small"><%= t('يبدأ العدّاد تلقائياً، وتسجّل جولاتك من هنا') %></div></div>
+    <i class="ti ti-chevron-left muted" aria-hidden="true"></i>
+  </a>
+<% } %>
+<%- include('../partials/me-punch', { visit }) %>
+
+<% for (const [cat, label] of Object.entries(CATS)) { const c = s[cat]; if (!c) continue; %>
+  <section class="card">
+    <div class="top">
+      <b><i class="ti <%= cat === 'iron' ? 'ti-barbell' : 'ti-hand-stop' %>"></i> <%= t('اشتراك {cat}', { cat: label }) %></b>
+      <span class="chip <%= c.status %>"><%= STATUS[c.status] %></span>
+    </div>
+    <% if (c.days >= 0) { %>
+      <div class="value num" style="font-size:30px;font-weight:700;margin-top:6px"><%= c.days %> <span class="muted" style="font-size:15px"><%= t('يوماً متبقياً') %></span></div>
+      <div class="progress <%= c.status %>"><span style="width:<%= Math.min(100, Math.round((c.days + 1) / 30 * 100)) %>%"></span></div>
+      <div class="muted small" style="margin-top:6px"><%= t('ينتهي في {date}', { date: c.end_date }) %><%= c.status === 'expiring' ? ` · ${t('جدّد اشتراكك عند الاستقبال قبل انتهائه')}` : '' %></div>
+    <% } else { %>
+      <div class="muted" style="margin-top:6px"><%= t('انتهى منذ {n} يوم. جدّد اشتراكك عند الاستقبال 🙏', { n: -c.days }) %></div>
+    <% } %>
+  </section>
+<% } %>
+<% if (!Object.keys(s).length) { %><section class="card empty"><%= t('ليس لديك اشتراك فعّال. تفضّل بزيارة الاستقبال.') %></section><% } %>
+
+<% if (nextClass) { %>
+  <section class="card" style="border-color:var(--red)">
+    <b>🥊 <%= t('حصة الكيك بوكسينج القادمة') %></b>
+    <div class="muted"><%= t(['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'][nextClass.start.getDay()]) %> <span class="num"><%= D.fmt(nextClass.start) %></span> <%= t('الساعة {t}', { t: ar(nextClass.start) }) %><%= nextClass.note ? ` · ${nextClass.note}` : '' %></div>
+  </section>
+<% } %>
+
+<section class="grid" style="grid-template-columns:repeat(3,1fr)">
+  <div class="card stat"><div class="label"><%= t('زيارات الشهر') %></div><div class="value num"><%= visitsMonth %></div><% if (month.n) { %><div class="hint"><%= t('المتوسط {d}', { d: fmtDur(Math.round(month.mins / month.n)) }) %></div><% } %></div>
+  <div class="card stat"><div class="label"><%= t('أسابيع متتالية') %></div><div class="value num">🔥<%= streak %></div></div>
+  <div class="card stat"><div class="label"><%= t('الالتزام') %></div><div class="value num" style="color:<%= adh.score >= 70 ? 'var(--green)' : adh.score >= 40 ? 'var(--amber)' : '#ff6b70' %>"><%= adh.score %>%</div></div>
+</section>
+
+<form class="card" method="post" action="/me/log">
+  <h2><%= t('يومي') %></h2>
+  <div class="muted small" style="margin:0 0 6px"><%= t('هل التزمت بخطتك الغذائية؟') %></div>
+  <div class="seg">
+    <% for (const [v, l] of [['yes', 'نعم ✅'], ['partial', 'جزئياً 🤏'], ['no', 'لا ❌']]) { %>
+      <label><input type="radio" name="nutrition" value="<%= v %>" <%= log.nutrition === v ? 'checked' : '' %>><span><%= t(l) %></span></label>
+    <% } %>
+  </div>
+  <div class="grid" style="grid-template-columns:1fr 1fr;margin-top:12px">
+    <label><%= t('أكواب الماء 💧') %><input type="number" name="water" min="0" max="20" value="<%= log.water ?? 0 %>" dir="ltr"></label>
+    <label><%= t('وزني اليوم (اختياري)') %><input type="number" name="weight" step="0.1" value="<%= log.weight ?? '' %>" dir="ltr" placeholder="<%= t('كغ') %>"></label>
+  </div>
+  <button class="btn red" style="width:100%;margin-top:12px"><%= t('حفظ') %></button>
+</form>
+
+<% if (latestNews.length) { %>
+<section class="card">
+  <div class="top"><h2 style="margin:0"><%= t('آخر الإشعارات') %></h2><a class="btn sm" href="/me/notifications"><%= t('الكل') %></a></div>
+  <% for (const n of latestNews) { const body = showNote(n.body); %><div class="row"><div><b><%= showNote(n.title) %></b><% if (body) { %><div class="muted small"><%= body %></div><% } %></div></div><% } %>
+</section>
+<% } %>
+
+<a class="card qr-cta" href="/me/shop"><i class="ti ti-shopping-bag" aria-hidden="true"></i><div><b><%= t('متجر النادي') %></b><div class="muted small"><%= t('مكمّلات، إكسسوارات، ومشروبات') %></div></div><i class="ti ti-chevron-left muted" aria-hidden="true"></i></a>
+
+<% if (m.balance > 0) { %><section class="card" style="border-color:var(--red)"><%= t('عليك مبلغ') %> <b class="balance-due"><%= money(m.balance) %></b>. <%= t('يرجى دفعه عند الاستقبال.') %></section><% } %>
+
+<section class="card install" id="install" hidden>
+  <b><i class="ti ti-device-mobile"></i> <%= t('ثبّت التطبيق') %></b>
+  <p class="muted small" id="installText"><%= t('أضف IRON MAN إلى شاشتك الرئيسية لتفتحه بسرعة.') %></p>
+  <button class="btn red sm" id="installBtn"><%= t('تثبيت') %></button>
+</section>
+<script>
+  let deferred;
+  const box = document.getElementById('install');
+  const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e; if (!standalone) box.hidden = false; });
+  if (!standalone && /iPhone|iPad/.test(navigator.userAgent)) {
+    box.hidden = false;
+    document.getElementById('installText').textContent = <%- JSON.stringify(t('على آيفون: اضغط زر المشاركة ⬆️ في Safari، ثم اختر "إضافة إلى الشاشة الرئيسية".')).replace(/</g, '\\u003c') %>;
+    document.getElementById('installBtn').hidden = true;
+  }
+  document.getElementById('installBtn').addEventListener('click', async () => { if (!deferred) return; deferred.prompt(); await deferred.userChoice; box.hidden = true; });
+</script>
+<%- include('../partials/me-foot') %>

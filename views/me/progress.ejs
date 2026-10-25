@@ -1,0 +1,82 @@
+<%- include('../partials/me-head', { title: 'تقدّمي' }) %>
+<% const last = inbody[inbody.length - 1], prev = inbody[inbody.length - 2];
+   const delta = (k) => (last && prev && last[k] != null && prev[k] != null ? Math.round((last[k] - prev[k]) * 10) / 10 : null);
+   const curW = weights.length ? weights[weights.length - 1].weight : last && last.weight;
+   const startW = weights.length ? weights[0].weight : null; %>
+
+<section class="card">
+  <h2><i class="ti ti-target-arrow"></i> <%= t('هدفي') %></h2>
+  <% if (!m.goal_type) { %>
+    <div class="empty"><%= t('لم يحدّد المدرّب هدفك بعد. تحدّث معه 💬') %></div>
+  <% } else { %>
+    <div class="top"><b style="font-size:18px"><%= GOALS[m.goal_type] %></b><% if (m.goal_date) { %><span class="muted small"><%= t('قبل {date} (متبقٍّ {n} يوم)', { date: m.goal_date, n: Math.max(0, D.daysBetween(today, m.goal_date)) }) %></span><% } %></div>
+    <% if (m.goal_weight && curW && startW) { const pct = startW === m.goal_weight ? 100 : Math.max(0, Math.min(100, Math.round((startW - curW) / (startW - m.goal_weight) * 100))); %>
+      <div class="muted small" style="margin-top:8px"><%= t('الوزن:') %> <span class="num"><%= startW %></span> <%= arrow %> <b class="num"><%= curW %></b> <%= arrow %> <%= t('الهدف {n} كغ', { n: m.goal_weight }) %></div>
+      <div class="progress"><span style="width:<%= pct %>%"></span></div>
+      <div class="muted small" style="margin-top:4px"><%= t('أنجزت {n}% من الطريق', { n: pct }) %></div>
+    <% } %>
+    <% if (m.goal_pbf && last && last.pbf) { %><div class="muted small" style="margin-top:8px"><%= t('نسبة الدهون:') %> <b class="num"><%= last.pbf %>%</b> <%= arrow %> <%= t('الهدف {n}%', { n: m.goal_pbf }) %></div><% } %>
+  <% } %>
+</section>
+
+<section class="card">
+  <h2><%= t('الالتزام هذا الأسبوع:') %> <span style="color:<%= adh.score >= 70 ? 'var(--green)' : adh.score >= 40 ? 'var(--amber)' : '#ff6b70' %>"><%= adh.score %>%</span></h2>
+  <div class="muted small"><%= t('الحضور {v} من {target} أيام · التمارين المسجّلة {w}', { v: adh.visits, target: adh.target, w: adh.workouts }) %></div>
+  <div class="week">
+    <% for (let i = 13; i >= 0; i--) { const day = D.addDays(today, -i); const l = logs.find((x) => x.day === day); %>
+      <span title="<%= day %>" class="<%= workoutDays.has(day) ? 'w' : '' %> <%= l && l.nutrition ? 'n-' + l.nutrition : '' %>"><%= D.parse(day).getDate() %></span>
+    <% } %>
+  </div>
+  <div class="muted small"><%= t('🟥 سجّلت جولات · الخط السفلي = الغذاء (الأخضر: التزمت، الأصفر: جزئياً، الأحمر: لم تلتزم)') %></div>
+</section>
+
+<% if (m.kcal || m.protein || m.water) { %>
+<section class="card">
+  <h2><i class="ti ti-salad"></i> <%= t('الخطة الغذائية') %></h2>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(90px,1fr))">
+    <% for (const [k, l, u] of [['kcal', 'سعرات', ''], ['protein', 'بروتين', 'غ'], ['carbs', 'كربوهيدرات', 'غ'], ['fat', 'دهون', 'غ'], ['water', 'ماء', 'لتر']]) { if (m[k] == null) continue; %>
+      <div class="stat card"><div class="label"><%= t(l) %></div><div class="value num" style="font-size:20px"><%= m[k] %><span class="muted small"> <%= u ? t(u) : '' %></span></div></div>
+    <% } %>
+  </div>
+</section>
+<% } %>
+
+<section class="card">
+  <h2><i class="ti ti-scale"></i> InBody</h2>
+  <% if (!last) { %><div class="empty"><%= t('لا يوجد فحص بعد. اطلب فحصاً من المدرّب أو الاستقبال.') %></div><% } else { %>
+    <div class="muted small"><%= t('آخر فحص {date}', { date: last.day }) %><%= prev ? ` · ${t('مقارنة بفحص {date}', { date: prev.day })}` : '' %></div>
+    <div class="grid" style="grid-template-columns:repeat(2,1fr);margin-top:10px">
+      <% for (const [k, l, u, good] of [['weight', 'الوزن', 'كغ', 0], ['smm', 'العضل', 'كغ', 1], ['bfm', 'الدهون', 'كغ', -1], ['pbf', 'نسبة الدهون', '%', -1], ['visceral', 'الدهون الحشوية', '', -1], ['score', 'InBody Score', '', 1]]) { if (last[k] == null) continue; const d = delta(k); %>
+        <div class="stat card"><div class="label"><%= t(l) %></div><div class="value num" style="font-size:22px"><%= last[k] %><span class="muted small"> <%= u === 'كغ' ? t('كغ') : u %></span></div>
+          <% if (d) { %><div class="small" style="color:<%= good === 0 ? 'var(--muted)' : (d > 0) === (good > 0) ? 'var(--green)' : '#ff6b70' %>"><%= d > 0 ? '▲' : '▼' %> <%= Math.abs(d) %></div><% } %>
+        </div>
+      <% } %>
+    </div>
+    <% if (last && D.daysBetween(last.day, today) >= 30) { %><div class="flash error" style="margin-top:10px"><%= t('مضى {n} يوماً على آخر فحص. حان وقت فحص جديد! 📊', { n: D.daysBetween(last.day, today) }) %></div><% } %>
+  <% } %>
+  <% for (const [vals, label, color] of [[weights.map((w) => w.weight), t('الوزن'), 'var(--red)'], [inbody.map((x) => x.smm), t('العضل'), 'var(--green)'], [inbody.map((x) => x.pbf), t('نسبة الدهون'), 'var(--amber)']]) { const c = chart(vals); if (!c) continue; %>
+    <div style="margin-top:14px"><div class="muted small"><%= label %>: <span class="num"><%= c.min %> – <%= c.max %></span></div>
+    <svg viewBox="0 0 <%= c.w %> <%= c.h %>" class="spark" role="img" aria-label="<%= label %>"><polyline points="<%= c.points %>" fill="none" stroke="<%= color %>" stroke-width="2.5" stroke-linejoin="round"/><circle cx="<%= c.last[0] %>" cy="<%= c.last[1] %>" r="4" fill="<%= color %>"/></svg></div>
+  <% } %>
+</section>
+
+<section class="card" id="prs">
+  <h2>🏆 <%= t('أعلى أوزاني') %></h2>
+  <% if (!prs.length) { %><div class="empty"><%= t('سجّل جولاتك من "تمريني" لتظهر أرقامك هنا.') %></div><% } %>
+  <% for (const x of prs) { %><div class="row"><span><%= x.exercise %></span><b class="num"><%= t('{n} كغ', { n: x.weight }) %> <span class="muted small"><%= x.day %></span></b></div><% } %>
+</section>
+
+<section class="card">
+  <h2><%= t('آخر التمارين') %></h2>
+  <% if (!history.length) { %><div class="empty"><%= t('لا توجد تمارين مسجّلة.') %></div><% } %>
+  <% let lastDay = null; for (const w of history) { %>
+    <% if (w.day !== lastDay) { lastDay = w.day; %><div class="muted small num" style="margin-top:10px"><%= w.day %></div><% } %>
+    <div class="row"><span><%= w.exercise %></span><span class="sets"><% for (const x of w.sets) { %><span class="set <%= x.is_pr ? 'pr' : '' %> <%= x.reps ? 'fail' : '' %>"><%= x.weight %><%= x.reps ? `×${x.reps}` : '' %></span><% } %></span></div>
+  <% } %>
+</section>
+
+<section class="card">
+  <div class="top"><h2 style="margin:0"><i class="ti ti-list-details"></i> <%= t('جدولي') %></h2><a class="btn sm" href="/me/program"><%= t('فتح') %></a></div>
+  <% if (m.trainer_name) { %><div class="muted small" style="margin-top:6px"><%= t('المدرّب: {name}', { name: m.trainer_name }) %></div><% } %>
+</section>
+<%- include('../partials/me-foot') %>

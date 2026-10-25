@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="<%= lang %>" dir="<%= dir %>">
+<head>
+<%- include('meta') %>
+<title><%= tt(title) %> · IRON MAN</title>
+</head>
+<body>
+<div class="shell">
+<aside class="side">
+  <a class="brand" href="/"><img src="/img/logo.webp" alt="IRON MAN"><b>IRON <span>MAN</span></b></a>
+  <nav class="nav">
+    <% const links = {
+      admin: [['/dashboard', 'ti-layout-dashboard', 'الرئيسية'], ['/checkin', 'ti-fingerprint', 'البصمة'], ['/members', 'ti-users', 'الأعضاء'], ['/templates', 'ti-list-details', 'الجداول'], ['/shop', 'ti-shopping-cart', 'المتجر'], ['/payments', 'ti-cash', 'الدفعات'], ['/schedule', 'ti-clock', 'الدوام والإعلانات'], ['/plans', 'ti-tags', 'الباقات'], ['/clean', 'ti-spray', 'النظافة'], ['/users', 'ti-user-shield', 'الموظفون'], ['/import', 'ti-file-import', 'الاستيراد']],
+      reception: [['/checkin', 'ti-fingerprint', 'البصمة'], ['/dashboard', 'ti-layout-dashboard', 'الرئيسية'], ['/members', 'ti-users', 'الأعضاء'], ['/templates', 'ti-list-details', 'الجداول'], ['/shop', 'ti-shopping-cart', 'المتجر']],
+      trainer: [['/trainer', 'ti-barbell', 'متدرّبيّ'], ['/templates', 'ti-list-details', 'الجداول']],
+      cleaner: [['/clean', 'ti-spray', 'مهام النظافة']],
+      member: [['/me', 'ti-home', 'الرئيسية']],
+    }[user.role]; %>
+    <% for (const [href, icon, label] of links) { %>
+      <a href="<%= href %>" class="<%= path === href || (href !== '/shop' && path.startsWith(href + '/')) || (href === '/shop' && path === '/shop') ? 'on' : '' %>"><i class="ti <%= icon %>" aria-hidden="true"></i><span><%= t(label) %></span></a>
+    <% } %>
+    <% if (user.role !== 'member') { %>
+      <a href="/notifications" class="<%= path === '/notifications' ? 'on' : '' %>"><i class="ti ti-bell" aria-hidden="true"></i><span><%= t('الإشعارات') %></span><% if (unread) { %><em class="badge"><%= unread %></em><% } %></a>
+    <% } %>
+  </nav>
+  <div class="me">
+    <div class="who"><b><%= user.name %></b><div class="muted small"><%= ROLES[user.role] %></div></div>
+    <div class="chips" style="margin-top:8px">
+      <%- include('lang-switch') %>
+      <form method="post" action="/logout"><button class="btn sm" aria-label="<%= t('تسجيل الخروج') %>"><i class="ti ti-logout"></i><span class="hide-sm"><%= t('خروج') %></span></button></form>
+    </div>
+  </div>
+</aside>
+<main class="main">
+<% if (flash && (flash.type === 'success' || flash.type === 'error')) { %>
+  <div class="flash <%= flash.type %>" role="status"><%= tt(flash.text) %></div>
+<% } %>

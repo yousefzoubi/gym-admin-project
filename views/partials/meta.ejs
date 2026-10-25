@@ -1,0 +1,40 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IRON MAN">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/img/logo.webp">
+<link rel="apple-touch-icon" href="/img/logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" rel="stylesheet">
+<link href="/style.css" rel="stylesheet">
+<script>
+  // Live workout timers: <el data-since="YYYY-MM-DD HH:MM:SS">
+  const tick = () => document.querySelectorAll('[data-since]').forEach((el) => {
+    const s = Math.max(0, Math.floor((Date.now() - new Date(el.dataset.since.replace(' ', 'T'))) / 1000));
+    el.textContent = [Math.floor(s / 3600), Math.floor(s / 60) % 60, s % 60].map((n) => String(n).padStart(2, '0')).join(':');
+  });
+  addEventListener('DOMContentLoaded', () => {
+    tick(); setInterval(tick, 1000);
+    // Big numbers count up from 0 (skipped for reduced motion)
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.querySelectorAll('.value.num').forEach((el) => {
+      // whole numbers only ("27", "29%", "🔥5"); decimals like 98.5 kg stay as they are
+      const node = [...el.childNodes].find((n) => n.nodeType === 3 && /[0-9]/.test(n.textContent));
+      if (!node || /[0-9][.,][0-9]/.test(node.textContent)) return;
+      const end = parseInt(node.textContent.replace(/[^0-9]/g, ''), 10);
+      if (!end || end > 100000) return;
+      const text = node.textContent, t0 = performance.now();
+      const step = (t) => {
+        const p = Math.min(1, (t - t0) / 800), v = Math.round(end * (1 - Math.pow(1 - p, 3)));
+        node.textContent = text.replace(/[0-9]+/, v);
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    });
+  });
+</script>
+<script>if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));</script>

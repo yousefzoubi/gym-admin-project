@@ -1,0 +1,35 @@
+<%- include('partials/head') %>
+<div class="top">
+  <h1><i class="ti ti-list-details"></i> <%= t('الجداول الجاهزة') %></h1>
+</div>
+<p class="muted small" style="margin:0"><%= t('قوالب جاهزة تختار منها للمشترك. يأخذ كل مشترك نسخة منها، ثم يعدّل عليها هو والمدرّب.') %></p>
+
+<section class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+  <% for (const tp of list) { %>
+    <a class="card template-card" href="/templates/<%= tp.id %>">
+      <b style="font-size:17px"><%= td(tp.name) %></b>
+      <div class="muted small"><%= t('{d} أيام · {e} تمريناً', { d: tp.days, e: tp.exercises }) %></div>
+      <div class="muted small"><i class="ti ti-users"></i> <%= t('{n} مشتركين عليه', { n: tp.members }) %></div>
+    </a>
+  <% } %>
+</section>
+
+<section class="grid two">
+  <form class="card form" method="post" action="/templates">
+    <h2 class="full"><%= t('جدول جديد') %></h2>
+    <label><%= t('الاسم') %><input name="name" required maxlength="60" placeholder="<%= t('مبتدئون - 3 أيام') %>"></label>
+    <label><%= t('ابدأ من') %>
+      <select name="copy_from"><option value=""><%= t('جدول فارغ') %></option><% for (const tp of list) { %><option value="<%= tp.id %>"><%= t('نسخة من {name}', { name: td(tp.name) }) %></option><% } %></select>
+    </label>
+    <div class="full"><button class="btn red"><i class="ti ti-plus"></i> <%= t('إنشاء') %></button></div>
+  </form>
+  <% if (user.role === 'admin') { %>
+  <div class="card">
+    <h2><%= t('حذف جدول') %></h2>
+    <% for (const tp of list) { %>
+      <div class="row"><span><%= td(tp.name) %></span><form method="post" action="/templates/<%= tp.id %>/delete" onsubmit="<%= ask('هل تريد حذف الجدول؟ يحتفظ المشتركون الذين أخذوه بنسختهم.') %>"><button class="btn ghost-danger" aria-label="<%= t('حذف {name}', { name: td(tp.name) }) %>"><i class="ti ti-trash"></i></button></form></div>
+    <% } %>
+  </div>
+  <% } %>
+</section>
+<%- include('partials/foot') %>

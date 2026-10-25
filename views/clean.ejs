@@ -1,0 +1,66 @@
+<%- include('partials/head', { title: 'النظافة' }) %>
+<% const pct = total ? Math.round(done / total * 100) : 0, admin = user.role === 'admin'; %>
+<div class="top">
+  <h1><i class="ti ti-spray"></i> <%= t('مهام النظافة اليوم') %></h1>
+  <span class="chip <%= done === total ? 'active' : 'expiring' %>"><%= t('{done} من {total}', { done, total }) %></span>
+</div>
+
+<% if (!admin) { %>
+  <% if (shift) { %>
+    <section class="card timer-card">
+      <div class="muted small"><%= t('في الدوام منذ الساعة {t}', { t: shift.clock_in.slice(11, 16) }) %></div>
+      <div class="timer num" data-since="<%= shift.clock_in %>">00:00:00</div>
+      <div class="muted small"><%= t('ضع بصمتك على الجهاز عند الانتهاء لتسجيل نهاية الدوام') %></div>
+    </section>
+  <% } else { %>
+    <section class="card qr-cta"><i class="ti ti-fingerprint" aria-hidden="true"></i><div><b><%= t('ضع بصمتك على الجهاز لبدء الدوام') %></b><div class="muted small"><%= me.fingerprint_id ? t('رقم بصمتك {n}', { n: me.fingerprint_id }) : t('اطلب من المدير تسجيل بصمتك') %></div></div></section>
+  <% } %>
+<% } %>
+
+<section class="card">
+  <div class="progress big-progress <%= done === total ? '' : 'expiring' %>"><span style="width:<%= pct %>%"></span></div>
+  <div class="muted small" style="margin:6px 0 12px"><%= done === total ? t('كل شيء نظيف ✨ يعطيك العافية') : t('المتبقي {n} مهام', { n: total - done }) %></div>
+  <% for (const task of tasks) { %>
+    <form method="post" action="/clean/<%= task.id %>" class="task <%= task.done_at ? 'done' : '' %>">
+      <button aria-pressed="<%= !!task.done_at %>">
+        <span class="tick"><i class="ti <%= task.done_at ? 'ti-check' : '' %>"></i></span>
+        <span class="task-name"><%= td(task.name) %></span>
+        <span class="muted small num"><%= task.done_at ? `${task.done_at.slice(11, 16)}${admin && task.done_by ? ' · ' + task.done_by : ''}` : '' %></span>
+      </button>
+    </form>
+  <% } %>
+  <% if (!tasks.length) { %><div class="empty"><%= t('لا توجد مهام.') %> <%= admin ? t('أضف مهام من الأسفل.') : '' %></div><% } %>
+</section>
+
+<section class="grid two">
+  <div class="card">
+    <h2><%= t('آخر 7 أيام') %></h2>
+    <% for (let i = 6; i >= 0; i--) { const day = D.addDays(today, -i); const w = week.find((x) => x.day === day); const n = w ? w.n : 0; %>
+      <div class="row"><span class="num"><%= day %></span><span class="chip <%= n >= total ? 'active' : n ? 'expiring' : 'expired' %>"><%= n %>/<%= total %></span></div>
+    <% } %>
+  </div>
+  <div class="card">
+    <h2><%= admin ? t('دوام عمّال النظافة') : t('دوامي') %></h2>
+    <% if (!shifts.length) { %><div class="empty"><%= t('لا يوجد دوام مسجّل.') %></div><% } %>
+    <% for (const s of shifts) { %>
+      <div class="row">
+        <span><%= admin ? s.name + ' · ' : '' %><span class="num"><%= s.clock_in.slice(0, 10) %></span></span>
+        <span class="muted small num"><%= s.clock_in.slice(11, 16) %> <%= arrow %> <%= s.clock_out ? `${s.clock_out.slice(11, 16)} · ${fmtDur(minutes(s.clock_in, s.clock_out))}` : t('في الدوام') %></span>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<% if (admin) { %>
+<section class="card">
+  <h2><%= t('إدارة المهام') %></h2>
+  <% for (const task of tasks) { %>
+    <div class="row"><span><%= td(task.name) %></span><form method="post" action="/clean/tasks/<%= task.id %>/delete" onsubmit="<%= ask('هل تريد إزالة هذه المهمة؟') %>"><button class="btn ghost-danger" aria-label="<%= t('إزالة {name}', { name: td(task.name) }) %>"><i class="ti ti-trash"></i></button></form></div>
+  <% } %>
+  <form method="post" action="/clean/tasks" style="display:flex;gap:8px;margin-top:12px">
+    <input name="name" required maxlength="80" placeholder="<%= t('مهمة جديدة: تنظيف الساونا') %>" aria-label="<%= t('مهمة جديدة') %>">
+    <button class="btn red"><i class="ti ti-plus"></i> <%= t('إضافة') %></button>
+  </form>
+</section>
+<% } %>
+<%- include('partials/foot') %>

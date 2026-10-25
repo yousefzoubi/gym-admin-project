@@ -1,0 +1,8 @@
+</main>
+<nav class="tabbar">
+  <% for (const [href, icon, label] of [['/me', 'ti-home', 'الرئيسية'], ['/me/progress', 'ti-chart-line', 'تقدّمي'], ['/me/workout', 'ti-barbell', 'تمريني'], ['/me/program', 'ti-list-details', 'جدولي'], ['/me/account', 'ti-user', 'حسابي']]) { %>
+    <a href="<%= href %>" class="<%= path === href ? 'on' : '' %> <%= href === '/me/workout' ? 'qr' : '' %>"><i class="ti <%= icon %>" aria-hidden="true"></i><span><%= t(label) %></span></a>
+  <% } %>
+</nav>
+</body>
+</html>

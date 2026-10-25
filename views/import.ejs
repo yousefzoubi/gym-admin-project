@@ -1,0 +1,36 @@
+<%- include('partials/head', { title: 'استيراد المشتركين' }) %>
+<h1><%= t('استيراد المشتركين من البرنامج القديم') %></h1>
+
+<% if (report) { %>
+  <div class="flash <%= report.errors.length ? 'error' : 'success' %>">
+    <%= t('أُضيف {n} عضواً.', { n: report.ok }) %><% if (report.errors.length) { %> <%= t('وفي {n} أسطر مشكلات:', { n: report.errors.length }) %><% } %>
+    <% if (report.errors.length) { %><ul style="margin:8px 0 0"><% for (const e of report.errors.slice(0, 50)) { %><li><%= tt(e) %></li><% } %></ul><% } %>
+  </div>
+<% } %>
+
+<section class="card">
+  <h2><%= t('الخطوات') %></h2>
+  <ol style="margin:0;padding-inline-start:20px;display:grid;gap:6px">
+    <li><%= t('صدّر المشتركين من البرنامج القديم إلى Excel.') %></li>
+    <li><%= t('رتّب الأعمدة بأسماء الملف النموذجي نفسها، ثم احفظ الملف من Excel بصيغة CSV UTF-8.') %></li>
+    <li><%= t('اختر الملف هنا. يُرفض الأعضاء المكررون (الرقم الوطني أو الهاتف نفسه) تلقائياً.') %></li>
+  </ol>
+  <a class="btn sm" href="/import-sample.csv" download style="margin-top:12px"><i class="ti ti-download"></i> <%= t('ملف نموذجي') %></a>
+  <p class="muted small"><%= t('الأعمدة:') %> <span class="num" dir="ltr">name, phone, national_id, birth_date, iron_end, kickboxing_end, fingerprint_id</span>. <%= t('التواريخ بصيغة 2026-12-31، وتاريخ نهاية الاشتراك اختياري.') %></p>
+</section>
+
+<form class="card" method="post" action="/import" id="f">
+  <label><%= t('ملف CSV') %><input type="file" accept=".csv,text/csv" id="file" required></label>
+  <textarea name="csv" id="csv" hidden></textarea>
+  <button class="btn red" style="margin-top:12px"><i class="ti ti-file-import"></i> <%= t('استيراد') %></button>
+</form>
+<script>
+  document.getElementById('f').addEventListener('submit', async (e) => {
+    const file = document.getElementById('file').files[0];
+    if (!file) return;
+    e.preventDefault();
+    document.getElementById('csv').value = await file.text();
+    e.target.submit();
+  });
+</script>
+<%- include('partials/foot') %>

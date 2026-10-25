@@ -1,0 +1,16 @@
+<%- include('../partials/me-head', { title: 'المتجر' }) %>
+<h1><%= t('المتجر') %></h1>
+<p class="muted small" style="margin:0"><%= t('يتم الشراء والدفع عند الاستقبال، نقداً أو على حسابك.') %></p>
+<% for (const [type, label] of Object.entries(PRODUCT_TYPES)) { const ps = products.filter((p) => p.type === type); if (!ps.length) continue; %>
+  <section class="card">
+    <h2><%= label %></h2>
+    <% for (const p of ps) { %>
+      <div class="row">
+        <b><%= td(p.name) %></b>
+        <span><b><%= money(p.price) %></b> <span class="chip <%= p.stock ? 'active' : 'expired' %>"><%= p.stock ? t('متوفر') : t('نفد') %></span></span>
+      </div>
+    <% } %>
+  </section>
+<% } %>
+<% if (!products.length) { %><section class="card empty"><%= t('المتجر فارغ حالياً.') %></section><% } %>
+<%- include('../partials/me-foot') %>

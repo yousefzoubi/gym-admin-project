@@ -1,0 +1,80 @@
+<%- include('partials/head', { title: 'البصمة' }) %>
+<div class="top">
+  <h1><i class="ti ti-fingerprint"></i> <%= t('جهاز البصمة') %></h1>
+  <div class="chips"><% for (const [c, h] of Object.entries(hours)) { %><span class="chip <%= h.open ? 'active' : 'none' %>"><%= CATS[c] %>: <%= tt(h.text) %></span><% } %></div>
+</div>
+<p class="muted small" style="margin:0"><%= t('نسخة تجريبية: الزر يحاكي وضع العضو لبصمته. البصمة الأولى تسجّل الدخول وتبدأ العدّاد، والثانية تسجّل الخروج.') %></p>
+
+<% if (flash && flash.type && flash.type.startsWith('ci-')) { const k = flash.type.slice(3); %>
+  <div class="result <%= k %>" role="status">
+    <i class="ti <%= { ok: 'ti-door-enter', out: 'ti-door-exit', deny: 'ti-circle-x', warn: 'ti-alert-circle' }[k] %>" aria-hidden="true"></i>
+    <div style="flex:1">
+      <div class="big"><%= tt(flash.text) %></div>
+      <% if (flash.detail) { %><div><%= tt(flash.detail) %></div><% } %>
+    </div>
+    <% if (flash.member) { %><a class="btn" href="/members/<%= flash.member %>"><%= t('الملف') %></a><% } %>
+  </div>
+<% } %>
+
+<form class="checkin-box" method="get">
+  <input name="q" value="<%= q %>" placeholder="<%= t('الاسم، الهاتف، رقم العضو، أو رقم البصمة') %>" aria-label="<%= t('البحث عن عضو') %>" autofocus autocomplete="off">
+  <button class="btn red"><i class="ti ti-search"></i> <%= t('بحث') %></button>
+</form>
+
+<% if (q) { %>
+<section class="card">
+  <% if (!results.length) { %><div class="empty"><%= t('لا يوجد عضو مطابق للبحث.') %></div><% } %>
+  <% for (const r of results) { %>
+    <div class="row">
+      <div>
+        <a href="/members/<%= r.id %>"><b><%= r.name %></b></a>
+        <span class="muted small num">#<%= r.id %> · <%= r.phone %> · <%= r.fingerprint_id ? t('بصمة {n}', { n: r.fingerprint_id }) : t('بلا بصمة') %></span>
+        <div style="margin-top:4px"><%- include('partials/chips', { s: r.s }) %></div>
+      </div>
+      <% if (r.fingerprint_id) { %>
+        <form method="post" action="/punch/<%= r.id %>"><button class="btn <%= r.open ? '' : 'red' %>"><i class="ti ti-fingerprint"></i> <%= r.open ? t('بصمة خروج') : t('بصمة دخول') %></button></form>
+      <% } else { %>
+        <a class="btn" href="/members/<%= r.id %>/edit"><%= t('تسجيل بصمة') %></a>
+      <% } %>
+    </div>
+  <% } %>
+</section>
+<% } %>
+
+<section class="grid two">
+  <div class="card">
+    <h2>🏋️ <%= t('في الداخل الآن') %> <span class="muted small">(<%= inside.length %>)</span></h2>
+    <% if (!inside.length) { %><div class="empty"><%= t('لا يوجد أحد في الداخل الآن.') %></div><% } %>
+    <% for (const v of inside) { %>
+      <div class="row">
+        <span><a href="/members/<%= v.member_id %>"><%= v.name %></a> <span class="chip none"><%= CATS[v.category] %></span></span>
+        <span class="chips"><b class="num" data-since="<%= v.checked_at %>">00:00:00</b>
+          <form method="post" action="/punch/<%= v.member_id %>"><button class="btn sm" title="<%= t('بصمة خروج') %>" aria-label="<%= t('بصمة خروج لـ {name}', { name: v.name }) %>"><i class="ti ti-door-exit"></i></button></form></span>
+      </div>
+    <% } %>
+  </div>
+  <div class="card">
+    <h2><%= t('زيارات اليوم') %> <span class="muted small">(<%= todayList.length %>)</span></h2>
+    <% if (!todayList.length) { %><div class="empty"><%= t('لم يحضر أحد بعد.') %></div><% } %>
+    <% for (const v of todayList) { %>
+      <div class="row">
+        <span><a href="/members/<%= v.member_id %>"><%= v.name %></a> <span class="chip none"><%= CATS[v.category] %></span></span>
+        <span class="muted num small"><%= v.checked_at.slice(11, 16) %> <%= arrow %> <%= v.checked_out_at ? `${v.checked_out_at.slice(11, 16)} · ${fmtDur(minutes(v.checked_at, v.checked_out_at))}` : t('في الداخل') %></span>
+      </div>
+    <% } %>
+  </div>
+</section>
+<section class="card">
+  <h2><i class="ti ti-id-badge-2"></i> <%= t('بصمة دوام الموظفين') %></h2>
+  <% if (!staff.length) { %><div class="empty"><%= t('لا يوجد موظفون لديهم بصمة. سجّلها من صفحة الموظفين.') %></div><% } %>
+  <% for (const u of staff) { %>
+    <div class="row">
+      <span><b><%= u.name %></b> <span class="chip none"><%= ROLES[u.role] %></span> <span class="muted small num"><%= t('بصمة {n}', { n: u.fingerprint_id }) %></span></span>
+      <span class="chips">
+        <% if (u.shift) { %><b class="num small" data-since="<%= u.shift.clock_in %>"></b><% } %>
+        <form method="post" action="/punch-staff/<%= u.id %>"><button class="btn sm <%= u.shift ? '' : 'red' %>"><i class="ti ti-fingerprint"></i> <%= u.shift ? t('نهاية الدوام') : t('بداية الدوام') %></button></form>
+      </span>
+    </div>
+  <% } %>
+</section>
+<%- include('partials/foot') %>

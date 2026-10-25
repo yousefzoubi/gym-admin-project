@@ -1,0 +1,13 @@
+<%- include('../partials/me-head', { title: 'الإشعارات' }) %>
+<h1><%= t('الإشعارات') %></h1>
+<section class="card">
+  <% if (!list.length) { %><div class="empty"><%= t('لا توجد إشعارات.') %></div><% } %>
+  <% for (const n of list) { const body = showNote(n.body); %>
+    <a class="row notif <%= n.read_at ? '' : 'unread' %>" href="<%= n.link || '#' %>">
+      <div><b><%= showNote(n.title) %></b><% if (body) { %><div class="muted small"><%= body %></div><% } %></div>
+      <span class="muted small num"><%= n.created_at.slice(5, 16) %></span>
+    </a>
+  <% } %>
+</section>
+<a class="btn" href="/me/account#prefs"><i class="ti ti-settings"></i> <%= t('إعدادات الإشعارات') %></a>
+<%- include('../partials/me-foot') %>

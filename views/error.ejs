@@ -1,0 +1,7 @@
+<% if (user) { %><%- include(user.role === 'member' ? 'partials/me-head' : 'partials/head') %><% } else { %><!doctype html><html lang="<%= lang %>" dir="<%= dir %>"><head><%- include('partials/meta') %><title><%= tt(title) %></title></head><body><main class="main"><% } %>
+<div class="card" style="text-align:center;padding:40px">
+  <h1><%= tt(title) %></h1>
+  <p class="muted"><%= tt(message) %></p>
+  <a class="btn red" href="/"><%= t('العودة إلى الرئيسية') %></a>
+</div>
+<% if (user && user.role === 'member') { %><%- include('partials/me-foot') %><% } else { %><%- include('partials/foot') %><% } %>

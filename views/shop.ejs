@@ -1,0 +1,62 @@
+<%- include('partials/head', { title: 'المتجر' }) %>
+<div class="top">
+  <h1><%= t('البيع من المتجر') %></h1>
+  <% if (user.role === 'admin') { %><a class="btn" href="/shop/products"><i class="ti ti-package"></i> <%= t('المنتجات والمخزون') %></a><% } %>
+</div>
+
+<form method="post" action="/shop/sell" id="pos" class="grid two">
+  <section class="card">
+    <input id="filter" placeholder="<%= t('ابحث عن منتج...') %>" aria-label="<%= t('البحث عن منتج') %>" style="margin-bottom:10px">
+    <% if (!products.length) { %><div class="empty"><%= t('لا توجد منتجات.') %> <% if (user.role === 'admin') { %><a href="/shop/products"><%= t('أضف منتجات') %></a><% } %></div><% } %>
+    <% for (const [type, label] of Object.entries(PRODUCT_TYPES)) { const ps = products.filter((p) => p.type === type); if (!ps.length) continue; %>
+      <h2 style="margin-top:10px"><%= label %></h2>
+      <% for (const p of ps) { %>
+        <div class="row product" data-name="<%= p.name %> <%= td(p.name) %>">
+          <div>
+            <b><%= td(p.name) %></b>
+            <div class="muted small"><%= money(p.price) %> · <span style="color:<%= p.stock <= p.low_stock ? '#ff6b70' : 'inherit' %>"><%= t('في المخزن {n}', { n: p.stock }) %></span></div>
+          </div>
+          <input type="number" name="qty_<%= p.id %>" min="0" max="<%= p.stock %>" value="0" data-price="<%= p.price %>" style="width:80px" dir="ltr" aria-label="<%= t('كمية {name}', { name: td(p.name) }) %>" <%= p.stock ? '' : 'disabled' %>>
+        </div>
+      <% } %>
+    <% } %>
+  </section>
+
+  <section class="card" style="align-self:start;position:sticky;top:16px">
+    <h2><%= t('الفاتورة') %></h2>
+    <div class="stat"><div class="value" id="total"><%= money(0) %></div></div>
+    <label style="margin-top:12px"><%= t('العضو (اختياري)') %>
+      <input name="member" list="members" placeholder="<%= t('اكتب اسم العضو') %>" autocomplete="off">
+      <datalist id="members"><% for (const m of members) { %><option value="<%= m.id %> - <%= m.name %>"><% } %></datalist>
+    </label>
+    <div class="chips" style="margin:12px 0">
+      <label class="check"><input type="radio" name="method" value="cash" checked> <%= t('نقداً') %></label>
+      <label class="check"><input type="radio" name="method" value="account"> <%= t('على حساب العضو') %></label>
+    </div>
+    <button class="btn red" style="width:100%"><i class="ti ti-receipt"></i> <%= t('تأكيد البيع') %></button>
+  </section>
+</form>
+
+<section class="card">
+  <h2><%= t('مبيعات اليوم ({amount})', { amount: money(todaySales.reduce((a, s) => a + s.total, 0)) }) %></h2>
+  <% if (!todaySales.length) { %><div class="empty"><%= t('لا توجد مبيعات اليوم.') %></div><% } %>
+  <% for (const s of todaySales) { %>
+    <div class="row">
+      <div><%= s.items %><div class="muted small"><%= s.member_name || t('زبون') %> · <span class="num"><%= s.created_at.slice(11, 16) %></span></div></div>
+      <span class="chips"><b><%= money(s.total) %></b> <span class="chip <%= s.method === 'account' ? 'expiring' : 'active' %>"><%= s.method === 'account' ? t('على الحساب') : t('نقداً') %></span>
+      <% if (user.role === 'admin') { %><form method="post" action="/shop/sales/<%= s.id %>/delete" onsubmit="<%= ask('هل تريد إلغاء البيع وإعادة الكمية إلى المخزون؟') %>"><button class="btn ghost-danger" aria-label="<%= t('إلغاء') %>"><i class="ti ti-arrow-back-up"></i></button></form><% } %></span>
+    </div>
+  <% } %>
+</section>
+
+<script>
+  const inputs = [...document.querySelectorAll('#pos input[type=number]')];
+  const currency = <%- JSON.stringify(t('{n} د.أ')).replace(/</g, '\\u003c') %>;
+  const sum = () => { document.getElementById('total').textContent = currency.replace('{n}', Math.round(inputs.reduce((a, i) => a + (+i.value || 0) * +i.dataset.price, 0) * 100) / 100); };
+  inputs.forEach((i) => i.addEventListener('input', sum));
+  document.getElementById('filter').addEventListener('input', (e) => {
+    const q = e.target.value.trim().toLowerCase();
+    document.querySelectorAll('.product').forEach((r) => { r.style.display = r.dataset.name.toLowerCase().includes(q) ? '' : 'none'; });
+  });
+</script>
+<%- include('partials/foot') %>

@@ -1,0 +1,52 @@
+<%- include('partials/head', { title: 'الموظفون' }) %>
+<h1><%= t('الموظفون والصلاحيات') %></h1>
+
+<section class="card table-wrap">
+  <table>
+    <thead><tr><th><%= t('الاسم') %></th><th><%= t('اسم المستخدم') %></th><th><%= t('الدور') %></th><th><%= t('البصمة') %></th><th><%= t('الدوام هذا الشهر') %></th><th><%= t('كلمة مرور جديدة') %></th><th></th></tr></thead>
+    <tbody>
+    <% for (const u of users) { %>
+      <tr>
+        <td><b><%= u.name %></b></td>
+        <td class="num"><%= u.username %></td>
+        <td><span class="chip <%= u.role === 'admin' ? 'expired' : u.role === 'trainer' ? 'active' : u.role === 'cleaner' ? 'expiring' : 'none' %>"><%= ROLES[u.role] %></span></td>
+        <td>
+          <form method="post" action="/users/<%= u.id %>/fingerprint" style="display:flex;gap:6px">
+            <input name="fingerprint_id" type="number" min="1" value="<%= u.fingerprint_id || '' %>" style="width:80px" dir="ltr" aria-label="<%= t('رقم بصمة {name}', { name: u.name }) %>">
+            <button class="btn sm"><%= t('حفظ') %></button>
+          </form>
+        </td>
+        <td class="num small"><%= u.days ? t('{d} يوم · {h} ساعة', { d: u.days, h: Math.round((u.hours || 0) * 10) / 10 }) : '—' %></td>
+        <td>
+          <form method="post" action="/users/<%= u.id %>/password" style="display:flex;gap:6px">
+            <input name="password" type="password" minlength="8" required placeholder="<%= t('8 أحرف على الأقل') %>" autocomplete="new-password" aria-label="<%= t('كلمة مرور جديدة') %>" dir="ltr">
+            <button class="btn sm"><%= t('تغيير') %></button>
+          </form>
+        </td>
+        <td><% if (u.id !== user.id) { %><form class="inline" method="post" action="/users/<%= u.id %>/delete" onsubmit="<%= ask('هل تريد حذف هذا الحساب؟') %>"><button class="btn ghost-danger" aria-label="<%= t('حذف') %>"><i class="ti ti-trash"></i></button></form><% } %></td>
+      </tr>
+    <% } %>
+    </tbody>
+  </table>
+</section>
+
+<form class="card form" method="post" action="/users">
+  <h2 class="full"><%= t('موظف جديد') %></h2>
+  <label><%= t('الاسم') %><input name="name" required maxlength="100"></label>
+  <label><%= t('اسم المستخدم (بالإنجليزية)') %><input name="username" required pattern="[a-zA-Z0-9_.]{3,30}" dir="ltr" autocomplete="off"></label>
+  <label><%= t('كلمة المرور') %><input name="password" type="password" minlength="8" required dir="ltr" autocomplete="new-password"></label>
+  <label><%= t('الدور') %>
+    <select name="role"><% for (const [k, v] of Object.entries(ROLES)) { if (k === 'member') continue; %><option value="<%= k %>"><%= v %></option><% } %></select>
+  </label>
+  <div class="full"><button class="btn red"><i class="ti ti-user-plus"></i> <%= t('إضافة') %></button></div>
+</form>
+
+<section class="card">
+  <h2><%= t('صلاحيات كل دور') %></h2>
+  <div class="row"><b><%= ROLES.admin %></b><span class="muted small"><%= t('كل شيء: الإيرادات، الباقات، الموظفون، الحذف') %></span></div>
+  <div class="row"><b><%= ROLES.reception %></b><span class="muted small"><%= t('البصمة، الأعضاء، الاشتراكات، الدفعات (دون الحذف أو أرقام الإيرادات)') %></span></div>
+  <div class="row"><b><%= ROLES.trainer %></b><span class="muted small"><%= t('متدرّبوه فقط، ويعدّل جداول تمارينهم') %></span></div>
+  <div class="row"><b><%= ROLES.cleaner %></b><span class="muted small"><%= t('قائمة مهام النظافة اليومية، ودوامه بالبصمة') %></span></div>
+  <p class="muted small"><%= t('يستطيع أي موظف له رقم بصمة تسجيل بداية الدوام ونهايته، وتظهر ساعاته هنا.') %></p>
+</section>
+<%- include('partials/foot') %>
